@@ -1,5 +1,5 @@
 const Analyst = () => {
-    return <div className="p-6 text-xl font-bold">Analyst Page</div>;
+    return <div className="ml-64 p-6 text-xl font-bold">Analyst Page</div>;
   };
   
   export default Analyst;
