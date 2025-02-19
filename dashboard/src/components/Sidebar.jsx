@@ -11,7 +11,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       svgPath: (
         <span>
           <svg
-            class="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
+            className="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="20"
@@ -21,8 +21,8 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
             <path
               d="M12.5 14.0902L7.5 14.0902M2.5 9.09545V14.0902C2.5 15.6976 2.5 16.5013 2.98816 17.0006C3.47631 17.5 4.26198 17.5 5.83333 17.5H14.1667C15.738 17.5 16.5237 17.5 17.0118 17.0006C17.5 16.5013 17.5 15.6976 17.5 14.0902V10.9203C17.5 9.1337 17.5 8.24039 17.1056 7.48651C16.7112 6.73262 15.9846 6.2371 14.5313 5.24606L11.849 3.41681C10.9528 2.8056 10.5046 2.5 10 2.5C9.49537 2.5 9.04725 2.80561 8.151 3.41681L3.98433 6.25832C3.25772 6.75384 2.89442 7.0016 2.69721 7.37854C2.5 7.75548 2.5 8.20214 2.5 9.09545Z"
               stroke=""
-              stroke-width="1.6"
-              stroke-linecap="round"
+              strokeWidth="1.6"
+              strokeLinecap="round"
             ></path>
           </svg>
         </span>
@@ -33,7 +33,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       path: "/athlete",
       svgPath: (
         <svg
-          class="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
+          className="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
@@ -43,8 +43,8 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
           <path
             d="M16.6667 17.5V16.7857C16.6667 15.9004 16.6667 15.4578 16.5831 15.0916C16.2982 13.8433 15.3234 12.8685 14.0751 12.5836C13.7089 12.5 13.2663 12.5 12.381 12.5H8.33333C6.7802 12.5 6.00363 12.5 5.39106 12.7537C4.5743 13.092 3.92538 13.741 3.58707 14.5577C3.33333 15.1703 3.33333 15.9469 3.33333 17.5M13.3333 5.83333C13.3333 7.67428 11.8409 9.16667 10 9.16667C8.15905 9.16667 6.66667 7.67428 6.66667 5.83333C6.66667 3.99238 8.15905 2.5 10 2.5C11.8409 2.5 13.3333 3.99238 13.3333 5.83333Z"
             stroke=""
-            stroke-width="1.6"
-            stroke-linecap="round"
+            strokeWidth="1.6"
+            strokeLinecap="round"
           ></path>
         </svg>
       ),
@@ -55,7 +55,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       svgPath: (
         <span>
           <svg
-            class="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
+            className="stroke-gray-500 transition-all duration-500 group-hover:stroke-indigo-600"
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="20"
@@ -65,8 +65,8 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
             <path
               d="M13.892 7.83239L10.3009 11.4235C9.74538 11.979 9.4676 12.2568 9.12242 12.2568C8.77724 12.2568 8.49947 11.979 7.94391 11.4235L6.66667 10.1462M9.16667 17.5H10.8333C13.976 17.5 15.5474 17.5 16.5237 16.5237C17.5 15.5474 17.5 13.976 17.5 10.8333V9.16667C17.5 6.02397 17.5 4.45262 16.5237 3.47631C15.5474 2.5 13.976 2.5 10.8333 2.5H9.16667C6.02397 2.5 4.45262 2.5 3.47631 3.47631C2.5 4.45262 2.5 6.02397 2.5 9.16667V10.8333C2.5 13.976 2.5 15.5474 3.47631 16.5237C4.45262 17.5 6.02397 17.5 9.16667 17.5Z"
               stroke=""
-              stroke-width="1.6"
-              stroke-linecap="round"
+              strokeWidth="1.6"
+              strokeLinecap="round"
             ></path>
           </svg>
         </span>
@@ -78,7 +78,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       svgPath: (
         <span>
           <svg
-            class="fill-gray-500 transition-all duration-500 group-hover:fill-indigo-600"
+            className="fill-gray-500 transition-all duration-500 group-hover:fill-indigo-600"
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="20"
@@ -121,15 +121,15 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       </div>
       {/* Sidebar link */}
       <nav className="flex-1 overflow-hidden overflow-y-auto pt-6 text-gray-400 ">
-        <h5 class="py-1.5 pl-3 text-xs font-medium text-gray-400 uppercase">
+        <h5 className="py-1.5 pl-3 text-xs font-medium text-gray-400 uppercase">
           MENU
         </h5>
         <ul className="p-2 overflow-hidden flex flex-col gap-1">
           {menuItems.map((item) => (
-            <Link to={item.path}>
+            <Link to={item.path} key={item.path}>
               <li
                 className="flex items-center gap-3 text-gray-500 text-sm font-medium py-2 px-3 rounded-lg transition-all duration-500 hover:bg-gray-200 active:bg-gray-50 hover:text-gray-900"
-                key={item.path}
+                
               >
                 <span>{item.svgPath}</span>
                 <span>{item.name}</span>
@@ -150,10 +150,10 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
               />
             </div>
             <div className="name-email">
-              <p class="font-semibold text-xs text-gray-900 mb-0.5">
+              <p className="font-semibold text-xs text-gray-900 mb-0.5">
                 Ronald Richards
               </p>
-              <p class="font-medium text-xs text-gray-500">@ronaldrich</p>
+              <p className="font-medium text-xs text-gray-500">@ronaldrich</p>
             </div>
           </div>
           <button className="rounded-full p-0.5 bg-white transition-all duration-500 hover:bg-gray-100">
@@ -167,9 +167,9 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
               <path
                 d="M7.50295 4.99634L12.5032 9.99654L7.5 14.9997"
                 stroke="#6B7280"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>
             </svg>
           </button>
