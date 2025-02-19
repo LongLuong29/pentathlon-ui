@@ -5,53 +5,169 @@ import { Menu, X, Plus } from "lucide-react";
 const employees = [
   {
     name: "Karina",
-    email: "floydmiles@pagedone.io",
-    avatar: "",
-    department: "Design",
+    email: "karina@pagedone.io",
+    date_of_birth: "Apr. 11, 2000",
+    gender: "Female",
+    phone: "0919030799",
+    adress: "Korea",
+    avatar: "../../public/karina.jpg",
     joinDate: "Jun. 24, 2023",
     status: "Active",
     statusColor: "bg-green-100 text-green-600",
   },
   {
-    name: "Savannah Nguyen",
-    email: "savannahng@pagedone.io",
+    name: "Lionel Messi",
+    email: "leomessi@pagedone.io",
+    date_of_birth: "Jun. 26, 1987",
+    gender: "Male",
+    phone: "0389871888",
+    adress: "Argentina",
     avatar:
-      "https://i.pinimg.com/736x/19/ff/f1/19fff10e9ee3e6eb48e3f5b4a747685b.jpg",
-    department: "Research",
+      "../../public/messi.jpg",
     joinDate: "Feb. 23, 2023",
     status: "Inactive",
     statusColor: "bg-red-100 text-red-600",
   },
   {
-    name: "Cameron Williamson",
-    email: "cameron@pagedone.io",
+    name: "Lamine Yamal",
+    email: "yamal@pagedone.io",
+    date_of_birth: "Jul. 13, 2007",
+    gender: "Male",
+    phone: "0378856745",
+    adress: "Spain",
     avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsmcp9Lux1yo5R6LkuR2CCXClQU6MVSdEoqQ&s",
-    department: "Development",
+      "../../public/yamal.jpg",
     joinDate: "Oct. 23, 2023",
     status: "Onboarding",
     statusColor: "bg-yellow-100 text-yellow-600",
   },
   {
-    name: "Darrell Steward",
+    name: "Raphinha",
     email: "darrellstew@pagedone.io",
+    date_of_birth: "Dec. 14, 1996",
+    gender: "Male",
+    phone: "0789876543",
+    adress: "Brazil",
     avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlfDFyNGXhVuT-p-Q9uXWajJTqNf0c2-gj8A&s",
-    department: "AI & ML",
+      "../../public/raphinha.jpg",
     joinDate: "Jul. 12, 2023",
     status: "Inactive",
     statusColor: "bg-red-100 text-red-600",
   },
   {
-    name: "Laura Bran",
-    email: "laurabran@pagedone.io",
+    name: "Robert Lewandowski",
+    email: "lewandowski@pagedone.io",
+    date_of_birth: "Aug. 21, 1988",
+    gender: "Male",
+    phone: "0394857643",
+    adress: "Poland",
     avatar:
-      "https://pagedone.io/storage/templates/HR-Management-Dashboard-Tailwind-CSS-Template-free-figma-file/HR-Management-Dashboard-Tailwind-CSS-Template-free-figma-file/assets/images/tbl-img-1.png  ",
-    department: "Design",
-    joinDate: "Sep. 29, 2023",
+      "../../public/lewandowski.jpg",
+    joinDate: "Oct. 23, 2023",
+    status: "Onboarding",
+    statusColor: "bg-yellow-100 text-yellow-600",
+  },
+  {
+    name: "Ferran Torres",
+    email: "torres@pagedone.io",
+    date_of_birth: "Apr. 11, 2000",
+    gender: "Male",
+    phone: "0712938465",
+    adress: "Foios, Spain",
+    avatar: "../../public/torres.jpg",
+    joinDate: "Feb. 29, 200",
     status: "Active",
     statusColor: "bg-green-100 text-green-600",
   },
+  {
+    name: "Frenkie De Jong",
+    email: "dejong@pagedone.io",
+    date_of_birth: "May. 12, 1997",
+    gender: "Male",
+    phone: "0719971205",
+    adress: "Arkel, Netherlands",
+    avatar: "../../public/dejong.jpg",
+    joinDate: "Jun. 24, 2023",
+    status: "Active",
+    statusColor: "bg-green-100 text-green-600",
+  },
+  {
+    name: "Dani Olmo",
+    email: "olmo@pagedone.io",
+    date_of_birth: "May. 07, 1998",
+    gender: "Male",
+    phone: "0319980705",
+    adress: "Terrassa, Spain",
+    avatar: "../../public/olmo.jpg",
+    joinDate: "Jun. 24, 2023",
+    status: "Active",
+    statusColor: "bg-green-100 text-green-600",
+  },
+  {
+    name: "Marc Casadó",
+    email: "casado@pagedone.io",
+    date_of_birth: "Sep. 14, 2003",
+    gender: "Male",
+    phone: "0341903002",
+    adress: "Spain",
+    avatar:
+      "../../public/casado.jpg",
+    joinDate: "Feb. 23, 2023",
+    status: "Inactive",
+    statusColor: "bg-red-100 text-red-600",
+  },
+  {
+    name: "Pedri",
+    email: "pedri@pagedone.io",
+    date_of_birth: "Nov. 25, 2002",
+    gender: "Male",
+    phone: "0377252002",
+    adress: "Tegueste, Spain",
+    avatar:
+      "../../public/pedri.jpg",
+    joinDate: "Oct. 23, 2023",
+    status: "Onboarding",
+    statusColor: "bg-yellow-100 text-yellow-600",
+  },
+  {
+    name: "Pablo Gavi",
+    email: "gavi@pagedone.io",
+    date_of_birth: "Aug. 05, 2004",
+    gender: "Male",
+    phone: "0788052004",
+    adress: "Los Palacios y Villafranca, Spain",
+    avatar:
+      "../../public/gavi.jpg",
+    joinDate: "Jul. 12, 2023",
+    status: "Inactive",
+    statusColor: "bg-red-100 text-red-600",
+  },
+  {
+    name: "Eric Garcia",
+    email: "garcia@pagedone.io",
+    date_of_birth: "Jan. 09, 2001",
+    gender: "Male",
+    phone: "0310200190",
+    adress: "Martorell, Spain",
+    avatar:
+      "../../public/garcia.jpg",
+    joinDate: "Oct. 23, 2023",
+    status: "Onboarding",
+    statusColor: "bg-yellow-100 text-yellow-600",
+  },
+  {
+    name: "Pau Cubarsí",
+    email: "cubarsi@pagedone.io",
+    date_of_birth: "Jan. 22, 2007",
+    gender: "Male",
+    phone: "0722012072",
+    adress: "Bescanó, Spain",
+    avatar: "../../public/cubarsi.jpg",
+    joinDate: "Feb. 29, 200",
+    status: "Active",
+    statusColor: "bg-green-100 text-green-600",
+  }
+
 ];
 
 const Athlete = () => {
@@ -186,7 +302,7 @@ const Athlete = () => {
         <div className="grid grid-cols-12 gap-6 pt6">
           <div className="col-span-12 xl:col-span-12">
             <div className="flex flex-col gap-6 w-full">
-              <div className="rounded-xl py-4 border border-solid border-gray-200 overflow-auto">
+              <div className="rounded-xl pb-4 border border-solid border-gray-200 overflow-auto">
                 <div className="flex items-center justify-between p-4">
                   <h5 className="text-base font-semibold text-gray-900">
                       Athletes List
@@ -200,7 +316,7 @@ const Athlete = () => {
                         </div>
                         <input type="text" id="default-search" className="block w-full max-w-52 pr-2.5 pl-8 py-2 text-xs font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none" placeholder="Search here"/>
                       </div>
-                    </form>
+                  </form>
                 </div>
                 <table className="w-full rounded-xl">
                   <thead>
@@ -214,16 +330,16 @@ const Athlete = () => {
                           Full Name &amp; Email
                         </th>
                         <th scope="col" className="py-3.5 pl-4 text-left whitespace-nowrap text-xs font-medium text-gray-900 capitalize">
-                          Role
+                          Gender
                         </th>
                         <th scope="col" className="py-3.5 pl-4 text-left whitespace-nowrap text-xs font-medium text-gray-900 capitalize">
-                          Department
+                          Date of birth
                         </th>
                         <th scope="col" className="py-3.5 pl-4 text-left whitespace-nowrap text-xs font-medium text-gray-900 capitalize">
                           Mobile Number
                         </th>
                         <th scope="col" className="py-3.5 pl-4 text-left whitespace-nowrap text-xs font-medium text-gray-900 capitalize">
-                          Join Date
+                          Address
                         </th>
                         <th scope="col" className="py-3.5 pl-4 text-left whitespace-nowrap text-xs font-medium text-gray-900 capitalize">
                           Status
@@ -243,7 +359,7 @@ const Athlete = () => {
                         </td>
                         <td className="pxy-3.5 pl-4 py-3">
                           <div className="w-48 flex items-center gap-3">
-                            <img src={emp.avatar || "../../public/download.jpg"} className="inline-block h-8 w-8 rounded-full ring-2 ring-white"  alt={emp.name}/>
+                            <img src={emp.avatar || "../../public/download.jpg"} className="inline-block h-10 w-10 rounded-full ring-2 ring-white"  alt={emp.name}/>
                             <div className="data">
                               <p className="font-medium text-xs text-gray-800">
                                 {emp.name}
@@ -255,19 +371,22 @@ const Athlete = () => {
                           </div>
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
+                          {emp.gender}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
+                          {emp.date_of_birth}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
+                          {emp.phone}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
+                          {emp.adress}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
+                        <span class={`inline-flex items-center ${emp.statusColor} text-xs font-medium mr-2 pl-2 pr-2.5 rounded-full py-0.5`}>
+                            <span class={"w-1 h-1 mr-1 rounded-full  flex"}></span>{emp.status}
+                          </span>
+                          
                         </td>
                         <td className="flex py-3.5 w-16 items-center gap-0.5">
                           <div className="dropdown relative inline-flex mx-auto">
@@ -308,81 +427,6 @@ const Athlete = () => {
                         </td>
                       </tr>
                     ))}
-
-                    <tr className="bg-white transition-all duration-500 hover:bg-gray-50">
-                        <td className="">
-                          <div className="flex items-center py3.5 pl-4">
-                            <input id="checkbox-default" type="checkbox" value="" className="w-4 h-4 appearance-none border border-gray-300 rounded-sm mr-2 hover:border-indigo-500 hover:bg-indigo-100 checked:bg-no-repeat checked:bg-center checked:border-indigo-500 checked:bg-indigo-100" />
-                          </div>
-                        </td>
-                        <td className="pxy-3.5 pl-4 py-3">
-                          <div className="w-48 flex items-center gap-3">
-                            <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="../../public/karina.jpg" alt="karina" />
-                            <div className="data">
-                              <p className="font-medium text-xs text-gray-800">
-                                Karian
-                              </p>
-                              <p className="font-normal text-xs text-gray-400">
-                                karina@pagedone.io
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          UI Designer
-                        </td>
-                        <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          Product design
-                        </td>
-                        <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          +12 3456 7890
-                        </td>
-                        <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          Jun. 24, 2023
-                        </td>
-                        <td className="py-3.5 pl-4 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                          <span className="inline-flex items-center bg-emerald-50 text-emerald-600 text-xs font-medium mr-2 pl-2 pr-2.5 rounded-full py-0.5">
-                            <span className="w-1 h-1 mr-1 rounded-full bg-emerald-500 flex"></span>Active
-                          </span>
-                        </td>
-                        <td className="flex py-3.5 w-16 items-center gap-0.5">
-                          <div className="dropdown relative inline-flex mx-auto">
-                            <button type="button" data-target="dropdown-action" className="dropdown-toggle inline-flex justify-center items-center gap-2 p-0.5 text-sm text-white rounded-md cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-100">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M12.0161 16.9896V17.0396M12.0161 11.976V12.026M12.0161 6.96228V7.01228" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round"></path>
-                              </svg>
-                            </button>
-                            <div id="dropdown-action" className="dropdown-menu rounded-xl shadow-lg bg-white absolute z-10 -right-8 top-full w-44 mt-2 hidden" aria-labelledby="dropdown-default">
-                              <ul className="py-2 flex flex-col gap-2.5 px-3">
-                                <li className="flex items-center justify-start gap-1.5">
-                                  <button className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900">
-                                    <svg className="fill-gray-500 transition-all duration-300 group-hover:fill-gray-900" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <g clipPath="url(#clip0_2051_8844)">
-                                        <path d="M8.01997 12.2708L7.4509 11.7085L8.01997 12.2708ZM15.7742 4.42279L16.3433 4.98506L15.7742 4.42279ZM18.6216 4.38623L18.0672 4.96293V4.96293L18.6216 4.38623ZM19.5573 5.28588L20.1118 4.70918V4.70918L19.5573 5.28588ZM19.5934 8.0947L20.1625 8.65697L19.5934 8.0947ZM11.8392 15.9427L11.2701 15.3804L11.8392 15.9427ZM10.7383 16.5141L10.6044 15.7254L10.7383 16.5141ZM9.6421 16.7002L9.77598 17.4889H9.77598L9.6421 16.7002ZM7.30876 14.4568L6.51735 14.3399H6.51735L7.30876 14.4568ZM7.46918 13.3711L8.26058 13.4881V13.4881L7.46918 13.3711ZM7.40218 16.6648L6.84773 17.2414L7.40218 16.6648ZM20.5821 6.67736L21.382 6.66709V6.66709L20.5821 6.67736ZM17.1851 3.41144L17.1749 2.61151H17.1749L17.1851 3.41144ZM21 21.8001C21.4418 21.8001 21.8 21.4419 21.8 21.0001C21.8 20.5583 21.4418 20.2001 21 20.2001V21.8001ZM3 20.2001C2.55817 20.2001 2.2 20.5583 2.2 21.0001C2.2 21.4419 2.55817 21.8001 3 21.8001V20.2001ZM8.58905 12.8331L16.3433 4.98506L15.2051 3.86052L7.4509 11.7085L8.58905 12.8331ZM18.0672 4.96293L19.0029 5.86258L20.1118 4.70918L19.1761 3.80953L18.0672 4.96293ZM19.0243 7.53243L11.2701 15.3804L12.4083 16.505L20.1625 8.65697L19.0243 7.53243ZM10.6044 15.7254L9.50822 15.9115L9.77598 17.4889L10.8721 17.3028L10.6044 15.7254ZM8.10016 14.5738L8.26058 13.4881L6.67777 13.2542L6.51735 14.3399L8.10016 14.5738ZM9.50822 15.9115C8.85898 16.0217 8.45869 16.0876 8.17213 16.0946C7.90314 16.1013 7.91532 16.0483 7.95663 16.0881L6.84773 17.2414C7.25649 17.6344 7.76448 17.7052 8.21151 17.6942C8.64096 17.6836 9.17691 17.5906 9.77598 17.4889L9.50822 15.9115ZM6.51735 14.3399C6.42983 14.9322 6.34885 15.4659 6.34917 15.8926C6.3495 16.3398 6.43631 16.8459 6.84773 17.2414L7.95663 16.0881C8.0006 16.1303 7.94936 16.1507 7.94917 15.8914C7.94896 15.6115 8.005 15.2179 8.10016 14.5738L6.51735 14.3399ZM19.0029 5.86258C19.3591 6.20504 19.5669 6.40717 19.6961 6.56993C19.8113 6.71488 19.7827 6.73057 19.7822 6.68763L21.382 6.66709C21.3762 6.21282 21.1751 5.85947 20.9491 5.57487C20.7372 5.30808 20.4352 5.02015 20.1118 4.70918L19.0029 5.86258ZM20.1625 8.65697C20.4778 8.3378 20.7723 8.04221 20.9773 7.77007C21.1959 7.47976 21.3879 7.12137 21.382 6.66709L19.7822 6.68763C19.7816 6.6447 19.8105 6.65965 19.6992 6.8075C19.5741 6.97353 19.3716 7.18093 19.0243 7.53243L20.1625 8.65697ZM16.3433 4.98506C16.6904 4.63372 16.8956 4.42847 17.061 4.30059C17.2078 4.18717 17.2288 4.21095 17.1954 4.21138L17.1749 2.61151C16.7245 2.61729 16.3714 2.81141 16.0825 3.03466C15.8124 3.24345 15.5206 3.5412 15.2051 3.86052L16.3433 4.98506ZM19.1761 3.80953C18.8525 3.49842 18.5531 3.20826 18.2777 3.00648C17.9832 2.79071 17.6253 2.60573 17.1749 2.61151L17.1954 4.21138C17.162 4.2118 17.1825 4.1875 17.332 4.29711C17.5007 4.4207 17.7111 4.62062 18.0672 4.96293L19.1761 3.80953ZM7.4509 11.7085C7.26027 11.9015 7.03517 12.1163 6.89452 12.3973L8.32527 13.1135C8.32013 13.1238 8.32046 13.1166 8.35908 13.0724C8.4046 13.0203 8.46927 12.9543 8.58905 12.8331L7.4509 11.7085ZM8.26058 13.4881C8.28535 13.3204 8.29904 13.2302 8.31321 13.1634C8.32514 13.1071 8.33051 13.103 8.32527 13.1135L6.89452 12.3973C6.75345 12.6791 6.71713 12.9878 6.67777 13.2542L8.26058 13.4881ZM11.2701 15.3804C11.1504 15.5016 11.0852 15.5671 11.0334 15.6134C10.9896 15.6526 10.9816 15.6539 10.9901 15.6495L11.7272 17.0696C12.0059 16.925 12.2169 16.6987 12.4083 16.505L11.2701 15.3804ZM10.8721 17.3028C11.1425 17.2569 11.4493 17.2138 11.7272 17.0696L10.9901 15.6495C10.9985 15.6451 10.9923 15.6512 10.9339 15.6648C10.8654 15.6807 10.7733 15.6967 10.6044 15.7254L10.8721 17.3028ZM18.8977 8.65659L15.3422 5.10104L14.2108 6.23241L17.7663 9.78796L18.8977 8.65659ZM21 20.2001H3V21.8001H21V20.2001Z" fill=""></path>
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_2051_8844">
-                                          <rect width="24" height="24" fill="white"></rect>
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
-
-                                  </button>
-                                  <span className="text-sm font-medium text-gray-700">Edit</span>
-                                </li>
-                                <li className="flex items-center justify-start gap-1.5">
-                                  <button className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900">
-                                    <svg className="stroke-gray-500 transition-all duration-300 group-hover:stroke-gray-900" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M4.99988 7.01655L5.29937 14.8033C5.41239 17.7418 5.4689 19.211 6.40707 20.1138C7.34525 21.0165 8.81531 21.0165 11.7554 21.0165H12.2432C15.1841 21.0165 16.6546 21.0165 17.5927 20.1138C18.5309 19.211 18.5874 17.7418 18.7004 14.8033L18.9999 7.01655M9.99988 13.0165V16.0165M13.9999 13.0165V16.0165M20.4705 4.4499C18.6467 4.29032 17.7348 4.21052 16.8228 4.15271C13.6108 3.9491 10.389 3.9491 7.17694 4.15271C6.26493 4.21052 5.35305 4.29032 3.5293 4.4499M13.7646 3.96873C13.7646 3.96873 13.3991 2.99999 11.647 3C9.89478 3.00001 9.5293 3.96872 9.5293 3.96872" stroke="" strokeWidth="1.6" strokeLinecap="round"></path>
-                                    </svg>
-                                  </button>
-                                  <span className="text-sm font-medium text-gray-700">Delete</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -393,108 +437,6 @@ const Athlete = () => {
     </div>
   );
 
-  // return (
-  //   <div className="flex overflow-hidden bg-white">
-  //     {/* Main Content */}
-  //     <div className="flex-1 flex flex-col px-4 py-6 md:ml-64">
-  //       {/* Navbar */}
-  //       <div className="flex justify-between items-center py-3.5 px-4 flex-wrap gap-2">
-  //         <h2 className="text-xl font-semibold">
-  //           Welcome back, <span className="text-purple-600">Karina</span>
-  //         </h2>
-  //         <button className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition">
-  //           <Plus className="w-5 h-5" /> Add Athlete
-  //         </button>
-  //         <button className="md:hidden" onClick={() => setSidebarOpen(true)}>
-  //           <Menu className="w-6 h-6 text-gray-600" />
-  //         </button>
-  //       </div>
-
-  //       {/* Employee Status Table */}
-  //       <div className="rounded-xl p-0.5 border border-solid border-gray-200 overflow-hidden">
-  //         {/* Search bar */}
-  //         <div className="flex flex-col min-[440px]:flex-row max-[440px]:gap-3 items-center justify-between p-4">
-  //           <h2 className="text-base font-semibold text-gray-900">
-  //             Employees Status
-  //           </h2>
-  //           <input
-  //             type="text"
-  //             placeholder="Search here"
-  //             className="block w-full sm:max-w-52 pr-2.5 pl-8 py-2 text-xs font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
-  //           />
-  //         </div>
-
-  //         {/* Table Container (Scroll on Mobile) */}
-  //         <div className="overflow-x-auto w-full">
-  //           <table className="w-full border-collapse min-w-[600px] ">
-  //             <thead>
-  //               <tr className="border-b bg-gray-100">
-  //                 <th className="p-3 text-left">
-  //                   <input type="checkbox" className="w-4 h-4" />
-  //                 </th>
-  //                 <th className="py-3.5 pl-4 text-left text-xs font-medium text-gray-900 capitalize">
-  //                   Full Name & Email
-  //                 </th>
-  //                 <th className="py-3.5 pl-4 text-left text-xs font-medium text-gray-900 capitalize">
-  //                   Department
-  //                 </th>
-  //                 <th className="py-3.5 pl-4 text-left text-xs font-medium text-gray-900 capitalize">
-  //                   Join Date
-  //                 </th>
-  //                 <th className="py-3.5 pl-4 text-left text-xs font-medium text-gray-900 capitalize">
-  //                   Status
-  //                 </th>
-  //                 <th className="py-3.5 pl-4 text-left text-xs font-medium text-gray-900 capitalize">
-  //                   Actions
-  //                 </th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               {employees.map((emp, index) => (
-  //                 <tr key={index} className="border-b hover:bg-gray-50 border-gray-200 last:border-0">
-  //                   <td className="p-3">
-  //                     <input type="checkbox" className="w-4 h-4" />
-  //                   </td>
-  //                   <td className="flex items-center space-x-2 py-3 pl-4">
-  //                     <img
-  //                       src={emp.avatar || "../../public/download.jpg"}
-  //                       alt={emp.name}
-  //                       className="w-8 h-8 rounded-full"
-  //                     />
-  //                     <div>
-  //                       <p className="font-medium text-xs text-gray-800">
-  //                         {emp.name}
-  //                       </p>
-  //                       <p className="font-normal text-xs text-gray-400">
-  //                         {emp.email}
-  //                       </p>
-  //                     </div>
-  //                   </td>
-  //                   <td className="py-3.5 pl-4 text-xs font-normal text-gray-800">
-  //                     {emp.department}
-  //                   </td>
-  //                   <td className="py-3.5 pl-4 text-xs font-normal text-gray-800">
-  //                     {emp.joinDate}
-  //                   </td>
-  //                   <td className="py-3.5 pl-4 text-sm font-medium text-gray-900 ">
-  //                     <span
-  //                       className={`px-2 py-1 text-sm font-medium rounded-md ${emp.statusColor}`}
-  //                     >
-  //                       {emp.status}
-  //                     </span>
-  //                   </td>
-  //                   <td className="py-3.5 pl-4 text-center w-16">
-  //                     ...
-  //                   </td>
-  //                 </tr>
-  //               ))}
-  //             </tbody>
-  //           </table>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default Athlete;
