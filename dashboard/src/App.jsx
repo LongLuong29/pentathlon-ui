@@ -8,12 +8,12 @@ import Athlete from "./components/Athlete";
 function App() {
   return (
     <Router>
-      <div className="flex">
+      <div className=" flex overflow-y-hidden bg-white font-inter">
         {/* Sidebar */}
         <Sidebar />
 
         {/* Main Content */}
-        <div className="flex-1 p-4">
+        <div className="body h-full overflow-hidden lg:ml-auto max-lg:w-full relative lg:w-[calc(100%-256px)] border-l border-solid border-gray-200">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/analyst" element={<Analyst />} />
