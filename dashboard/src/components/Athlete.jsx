@@ -180,6 +180,13 @@ const Athlete = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [athletes, setAthletes] = useState(employees)
+
+
+  const filteredAthletes = athletes.filter((athlete) =>
+    athlete.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleStatsClick = (athleteID) => {
     navigate("/analyst", { state: { athleteID } }); // Điều hướng sang trang /analyst
@@ -419,6 +426,8 @@ const Athlete = () => {
                         id="default-search"
                         className="block w-full max-w-52 pr-2.5 pl-8 py-2 text-xs font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
                         placeholder="Search here"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                       />
                     </div>
                   </form>
@@ -481,7 +490,7 @@ const Athlete = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {employees.map((emp, index) => (
+                    {filteredAthletes.map((emp, index) => (
                       <tr
                         className="bg-white transition-all duration-500 hover:bg-gray-50"
                         key={index}
