@@ -182,6 +182,8 @@ const Athlete = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [athletes, setAthletes] = useState(employees)
+  const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
+
 
 
   const filteredAthletes = athletes.filter((athlete) =>
@@ -255,7 +257,7 @@ const Athlete = () => {
             </svg>
             <span className="max-md:hidden">Training Schedule</span>
           </button>
-          <button className="group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700">
+          <button onClick={() => setShowAddAthleteModal(true)} className="group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -273,6 +275,99 @@ const Athlete = () => {
             <span className="max-md:hidden">Add Athlete</span>
           </button>
         </div>
+
+        {showAddAthleteModal && (
+  <div
+    className="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm"
+    onClick={() => setShowAddAthleteModal(false)}
+  >
+    <div
+      className="bg-white p-6 rounded-lg shadow-lg w-96"
+      onClick={(e) => e.stopPropagation()} // Chặn sự kiện click lan ra ngoài
+    >
+      <h2 className="text-lg font-bold mb-4">Add New Athlete</h2>
+
+      {/* Form nhập thông tin */}
+      <label className="block text-sm font-medium mb-1">Full Name</label>
+      <input
+        type="text"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+      <label className="block text-sm font-medium mb-1">Email</label>
+      <input
+        type="email"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+
+      {/* Date of Birth */}
+      <label className="block text-sm font-medium mb-1">Date of Birth</label>
+      <input
+        type="date"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+      
+        {/* Gender */}
+        <label className="block text-sm font-medium mb-1">Gender</label>
+      <select  className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+      {/* Phone */}
+      <label className="block text-sm font-medium mb-1">Phone Number</label>
+      <input
+        type="text"
+        placeholder="Phone Number"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+
+      {/* Address */}
+      <label className="block text-sm font-medium mb-1">Address</label>
+      <input
+        type="text"
+        placeholder="Address"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+
+      {/* Avatar */}
+      <label className="block text-sm font-medium mb-1">Upload Avatar</label>
+      <input
+        type="file"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+        accept="image/*"
+      />
+{/* 
+      <label className="block text-sm font-medium mb-1">Join Date</label>
+      <input
+        type="date"
+        placeholder="Join Date"
+        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
+      />
+
+      <label className="block text-sm font-medium mb-1"></label>
+      <select className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"      >
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select> */}
+
+      {/* Nút hành động */}
+      <div className="flex justify-end gap-2">
+        <button
+          onClick={() => setShowAddAthleteModal(false)}
+          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+        >
+          Cancel
+        </button>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
         {/* Hidden button for mobile */}
         <div className="flex items-center gap-2 sm:hidden">
           <div className="relative w-max">
