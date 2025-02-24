@@ -1,85 +1,87 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import Select from "react-select";
 
+const sampleData = [
+  // Vận động viên 1
+  { athleteId: 1, metric_type: "heart_rate", value: 70, recorded_at: "2025-02-10" },
+  { athleteId: 1, metric_type: "heart_rate", value: 72, recorded_at: "2025-02-12" },
+  { athleteId: 1, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-14" },
+  { athleteId: 1, metric_type: "heart_rate", value: 75, recorded_at: "2025-02-16" },
+  { athleteId: 1, metric_type: "heart_rate", value: 77, recorded_at: "2025-02-18" },
+  { athleteId: 1, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-19" },
+  { athleteId: 1, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-20" },
+  { athleteId: 1, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-22" },
+  { athleteId: 1, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-24" },
+
+  { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-10" },
+  { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-14" },
+  { athleteId: 1, metric_type: "height", value: 176, recorded_at: "2025-02-18" },
+  { athleteId: 1, metric_type: "height", value: 177, recorded_at: "2025-02-22" },
+
+  { athleteId: 1, metric_type: "weight", value: 65, recorded_at: "2025-02-10" },
+  { athleteId: 1, metric_type: "weight", value: 66, recorded_at: "2025-02-12" },
+  { athleteId: 1, metric_type: "weight", value: 67, recorded_at: "2025-02-14" },
+  { athleteId: 1, metric_type: "weight", value: 67, recorded_at: "2025-02-16" },
+  { athleteId: 1, metric_type: "weight", value: 68, recorded_at: "2025-02-20" },
+
+  // Vận động viên 2
+  { athleteId: 2, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-10" },
+  { athleteId: 2, metric_type: "heart_rate", value: 76, recorded_at: "2025-02-12" },
+  { athleteId: 2, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-14" },
+  { athleteId: 2, metric_type: "heart_rate", value: 79, recorded_at: "2025-02-16" },
+  { athleteId: 2, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-18" },
+  { athleteId: 2, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-20" },
+  { athleteId: 2, metric_type: "heart_rate", value: 84, recorded_at: "2025-02-22" },
+
+  { athleteId: 2, metric_type: "height", value: 168, recorded_at: "2025-02-10" },
+  { athleteId: 2, metric_type: "height", value: 169, recorded_at: "2025-02-16" },
+  { athleteId: 2, metric_type: "height", value: 170, recorded_at: "2025-02-22" },
+
+  { athleteId: 2, metric_type: "weight", value: 69, recorded_at: "2025-02-10" },
+  { athleteId: 2, metric_type: "weight", value: 70, recorded_at: "2025-02-14" },
+  { athleteId: 2, metric_type: "weight", value: 71, recorded_at: "2025-02-18" },
+  { athleteId: 2, metric_type: "weight", value: 72, recorded_at: "2025-02-22" },
+
+  // Vận động viên 3
+  { athleteId: 3, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-10" },
+  { athleteId: 3, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-12" },
+  { athleteId: 3, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-14" },
+  { athleteId: 3, metric_type: "heart_rate", value: 85, recorded_at: "2025-02-16" },
+  { athleteId: 3, metric_type: "heart_rate", value: 86, recorded_at: "2025-02-18" },
+  { athleteId: 3, metric_type: "heart_rate", value: 87, recorded_at: "2025-02-20" },
+  { athleteId: 3, metric_type: "heart_rate", value: 89, recorded_at: "2025-02-22" },
+
+  { athleteId: 3, metric_type: "height", value: 180, recorded_at: "2025-02-10" },
+  { athleteId: 3, metric_type: "height", value: 181, recorded_at: "2025-02-14" },
+  { athleteId: 3, metric_type: "height", value: 182, recorded_at: "2025-02-18" },
+
+  { athleteId: 3, metric_type: "weight", value: 74, recorded_at: "2025-02-10" },
+  { athleteId: 3, metric_type: "weight", value: 75, recorded_at: "2025-02-12" },
+  { athleteId: 3, metric_type: "weight", value: 76, recorded_at: "2025-02-16" },
+  { athleteId: 3, metric_type: "weight", value: 77, recorded_at: "2025-02-20" },
+];
+
+const metrics = ["heart_rate", "height", "weight"];
+
+const athletes = [
+  { id: 1, name: "Nguyễn Văn A" },
+  { id: 2, name: "Trần Thị B" },
+  { id: 3, name: "Lê Hoàng C" },
+];
+
 const HealthChart = () => {
-  const sampleData = [
-    // Vận động viên 1
-    { athleteId: 1, metric_type: "heart_rate", value: 70, recorded_at: "2025-02-10" },
-    { athleteId: 1, metric_type: "heart_rate", value: 72, recorded_at: "2025-02-12" },
-    { athleteId: 1, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-14" },
-    { athleteId: 1, metric_type: "heart_rate", value: 75, recorded_at: "2025-02-16" },
-    { athleteId: 1, metric_type: "heart_rate", value: 77, recorded_at: "2025-02-18" },
-    { athleteId: 1, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-19" },
-    { athleteId: 1, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-20" },
-    { athleteId: 1, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-22" },
-    { athleteId: 1, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-24" },
-  
-    { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-10" },
-    { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-14" },
-    { athleteId: 1, metric_type: "height", value: 176, recorded_at: "2025-02-18" },
-    { athleteId: 1, metric_type: "height", value: 177, recorded_at: "2025-02-22" },
-  
-    { athleteId: 1, metric_type: "weight", value: 65, recorded_at: "2025-02-10" },
-    { athleteId: 1, metric_type: "weight", value: 66, recorded_at: "2025-02-12" },
-    { athleteId: 1, metric_type: "weight", value: 67, recorded_at: "2025-02-14" },
-    { athleteId: 1, metric_type: "weight", value: 67, recorded_at: "2025-02-16" },
-    { athleteId: 1, metric_type: "weight", value: 68, recorded_at: "2025-02-20" },
-  
-    // Vận động viên 2
-    { athleteId: 2, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-10" },
-    { athleteId: 2, metric_type: "heart_rate", value: 76, recorded_at: "2025-02-12" },
-    { athleteId: 2, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-14" },
-    { athleteId: 2, metric_type: "heart_rate", value: 79, recorded_at: "2025-02-16" },
-    { athleteId: 2, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-18" },
-    { athleteId: 2, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-20" },
-    { athleteId: 2, metric_type: "heart_rate", value: 84, recorded_at: "2025-02-22" },
-  
-    { athleteId: 2, metric_type: "height", value: 168, recorded_at: "2025-02-10" },
-    { athleteId: 2, metric_type: "height", value: 169, recorded_at: "2025-02-16" },
-    { athleteId: 2, metric_type: "height", value: 170, recorded_at: "2025-02-22" },
-  
-    { athleteId: 2, metric_type: "weight", value: 69, recorded_at: "2025-02-10" },
-    { athleteId: 2, metric_type: "weight", value: 70, recorded_at: "2025-02-14" },
-    { athleteId: 2, metric_type: "weight", value: 71, recorded_at: "2025-02-18" },
-    { athleteId: 2, metric_type: "weight", value: 72, recorded_at: "2025-02-22" },
-  
-    // Vận động viên 3
-    { athleteId: 3, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-10" },
-    { athleteId: 3, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-12" },
-    { athleteId: 3, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-14" },
-    { athleteId: 3, metric_type: "heart_rate", value: 85, recorded_at: "2025-02-16" },
-    { athleteId: 3, metric_type: "heart_rate", value: 86, recorded_at: "2025-02-18" },
-    { athleteId: 3, metric_type: "heart_rate", value: 87, recorded_at: "2025-02-20" },
-    { athleteId: 3, metric_type: "heart_rate", value: 89, recorded_at: "2025-02-22" },
-  
-    { athleteId: 3, metric_type: "height", value: 180, recorded_at: "2025-02-10" },
-    { athleteId: 3, metric_type: "height", value: 181, recorded_at: "2025-02-14" },
-    { athleteId: 3, metric_type: "height", value: 182, recorded_at: "2025-02-18" },
-  
-    { athleteId: 3, metric_type: "weight", value: 74, recorded_at: "2025-02-10" },
-    { athleteId: 3, metric_type: "weight", value: 75, recorded_at: "2025-02-12" },
-    { athleteId: 3, metric_type: "weight", value: 76, recorded_at: "2025-02-16" },
-    { athleteId: 3, metric_type: "weight", value: 77, recorded_at: "2025-02-20" },
-  ];
-  
-
-
-  const metrics = ["heart_rate", "height", "weight"];
-  const athletes = [
-    { id: 1, name: "Nguyễn Văn A" },
-    { id: 2, name: "Trần Thị B" },
-    { id: 3, name: "Lê Hoàng C" },
-  ];
+  const location = useLocation();
+  const athleteID = location.state?.athleteID; // Nhận athleteID từ trang trước
 
   const today = new Date();
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(today.getDate() - 7);
-
   const formatDate = (date) => date.toISOString().split("T")[0];
 
-  const [selectedAthlete, setSelectedAthlete] = useState(1);
+  const [selectedAthlete, setSelectedAthlete] = useState(athleteID || null);
   const [selectedMetric, setSelectedMetric] = useState("heart_rate");
   const [fromDate, setFromDate] = useState(formatDate(sevenDaysAgo));
   const [toDate, setToDate] = useState(formatDate(today));
@@ -92,16 +94,16 @@ const HealthChart = () => {
         return;
     }
     setFromDate(newFromDate);
-};
+  };
 
-const handleToDateChange = (e) => {
+  const handleToDateChange = (e) => {
     const newToDate = e.target.value;
     if (newToDate < fromDate) {
         alert("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu!");
         return;
     }
     setToDate(newToDate);
-};
+  };
 
   
   useEffect(() => {
