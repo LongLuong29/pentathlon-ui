@@ -1,20 +1,9 @@
 import { useState } from "react";
 import { Menu, X, Plus } from "lucide-react";
 
+
 // Dummy Data
 const employees = [
-  {
-    name: "Karina",
-    email: "karina@pagedone.io",
-    date_of_birth: "Apr. 11, 2000",
-    gender: "Female",
-    phone: "0919030799",
-    adress: "Korea",
-    avatar: "../../public/karina.jpg",
-    joinDate: "Jun. 24, 2023",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
   {
     name: "Lionel Messi",
     email: "leomessi@pagedone.io",
@@ -27,6 +16,18 @@ const employees = [
     joinDate: "Feb. 23, 2023",
     status: "Inactive",
     statusColor: "bg-red-100 text-red-600",
+  },
+  {
+    name: "Karina",
+    email: "karina@pagedone.io",
+    date_of_birth: "Apr. 11, 2000",
+    gender: "Female",
+    phone: "0919030799",
+    adress: "Korea",
+    avatar: "../../public/karina.jpg",
+    joinDate: "Jun. 24, 2023",
+    status: "Active",
+    statusColor: "bg-green-100 text-green-600",
   },
   {
     name: "Lamine Yamal",
