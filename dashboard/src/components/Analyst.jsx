@@ -6,20 +6,85 @@ import Select from "react-select";
 
 const sampleData = [
   // Vận động viên 1
-  { athleteId: 1, metric_type: "heart_rate", value: 70, recorded_at: "2025-02-10" },
-  { athleteId: 1, metric_type: "heart_rate", value: 72, recorded_at: "2025-02-12" },
-  { athleteId: 1, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-14" },
-  { athleteId: 1, metric_type: "heart_rate", value: 75, recorded_at: "2025-02-16" },
-  { athleteId: 1, metric_type: "heart_rate", value: 77, recorded_at: "2025-02-18" },
-  { athleteId: 1, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-19" },
-  { athleteId: 1, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-20" },
-  { athleteId: 1, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-22" },
-  { athleteId: 1, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-24" },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 70,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 72,
+    recorded_at: "2025-02-12",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 74,
+    recorded_at: "2025-02-14",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 75,
+    recorded_at: "2025-02-16",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 77,
+    recorded_at: "2025-02-18",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 78,
+    recorded_at: "2025-02-19",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 80,
+    recorded_at: "2025-02-20",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 82,
+    recorded_at: "2025-02-22",
+  },
+  {
+    athleteId: 1,
+    metric_type: "heart_rate",
+    value: 83,
+    recorded_at: "2025-02-24",
+  },
 
-  { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-10" },
-  { athleteId: 1, metric_type: "height", value: 175, recorded_at: "2025-02-14" },
-  { athleteId: 1, metric_type: "height", value: 176, recorded_at: "2025-02-18" },
-  { athleteId: 1, metric_type: "height", value: 177, recorded_at: "2025-02-22" },
+  {
+    athleteId: 1,
+    metric_type: "height",
+    value: 175,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 1,
+    metric_type: "height",
+    value: 175,
+    recorded_at: "2025-02-14",
+  },
+  {
+    athleteId: 1,
+    metric_type: "height",
+    value: 176,
+    recorded_at: "2025-02-18",
+  },
+  {
+    athleteId: 1,
+    metric_type: "height",
+    value: 177,
+    recorded_at: "2025-02-22",
+  },
 
   { athleteId: 1, metric_type: "weight", value: 65, recorded_at: "2025-02-10" },
   { athleteId: 1, metric_type: "weight", value: 66, recorded_at: "2025-02-12" },
@@ -28,17 +93,67 @@ const sampleData = [
   { athleteId: 1, metric_type: "weight", value: 68, recorded_at: "2025-02-20" },
 
   // Vận động viên 2
-  { athleteId: 2, metric_type: "heart_rate", value: 74, recorded_at: "2025-02-10" },
-  { athleteId: 2, metric_type: "heart_rate", value: 76, recorded_at: "2025-02-12" },
-  { athleteId: 2, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-14" },
-  { athleteId: 2, metric_type: "heart_rate", value: 79, recorded_at: "2025-02-16" },
-  { athleteId: 2, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-18" },
-  { athleteId: 2, metric_type: "heart_rate", value: 82, recorded_at: "2025-02-20" },
-  { athleteId: 2, metric_type: "heart_rate", value: 84, recorded_at: "2025-02-22" },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 74,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 76,
+    recorded_at: "2025-02-12",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 78,
+    recorded_at: "2025-02-14",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 79,
+    recorded_at: "2025-02-16",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 80,
+    recorded_at: "2025-02-18",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 82,
+    recorded_at: "2025-02-20",
+  },
+  {
+    athleteId: 2,
+    metric_type: "heart_rate",
+    value: 84,
+    recorded_at: "2025-02-22",
+  },
 
-  { athleteId: 2, metric_type: "height", value: 168, recorded_at: "2025-02-10" },
-  { athleteId: 2, metric_type: "height", value: 169, recorded_at: "2025-02-16" },
-  { athleteId: 2, metric_type: "height", value: 170, recorded_at: "2025-02-22" },
+  {
+    athleteId: 2,
+    metric_type: "height",
+    value: 168,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 2,
+    metric_type: "height",
+    value: 169,
+    recorded_at: "2025-02-16",
+  },
+  {
+    athleteId: 2,
+    metric_type: "height",
+    value: 170,
+    recorded_at: "2025-02-22",
+  },
 
   { athleteId: 2, metric_type: "weight", value: 69, recorded_at: "2025-02-10" },
   { athleteId: 2, metric_type: "weight", value: 70, recorded_at: "2025-02-14" },
@@ -46,17 +161,67 @@ const sampleData = [
   { athleteId: 2, metric_type: "weight", value: 72, recorded_at: "2025-02-22" },
 
   // Vận động viên 3
-  { athleteId: 3, metric_type: "heart_rate", value: 78, recorded_at: "2025-02-10" },
-  { athleteId: 3, metric_type: "heart_rate", value: 80, recorded_at: "2025-02-12" },
-  { athleteId: 3, metric_type: "heart_rate", value: 83, recorded_at: "2025-02-14" },
-  { athleteId: 3, metric_type: "heart_rate", value: 85, recorded_at: "2025-02-16" },
-  { athleteId: 3, metric_type: "heart_rate", value: 86, recorded_at: "2025-02-18" },
-  { athleteId: 3, metric_type: "heart_rate", value: 87, recorded_at: "2025-02-20" },
-  { athleteId: 3, metric_type: "heart_rate", value: 89, recorded_at: "2025-02-22" },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 78,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 80,
+    recorded_at: "2025-02-12",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 83,
+    recorded_at: "2025-02-14",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 85,
+    recorded_at: "2025-02-16",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 86,
+    recorded_at: "2025-02-18",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 87,
+    recorded_at: "2025-02-20",
+  },
+  {
+    athleteId: 3,
+    metric_type: "heart_rate",
+    value: 89,
+    recorded_at: "2025-02-22",
+  },
 
-  { athleteId: 3, metric_type: "height", value: 180, recorded_at: "2025-02-10" },
-  { athleteId: 3, metric_type: "height", value: 181, recorded_at: "2025-02-14" },
-  { athleteId: 3, metric_type: "height", value: 182, recorded_at: "2025-02-18" },
+  {
+    athleteId: 3,
+    metric_type: "height",
+    value: 180,
+    recorded_at: "2025-02-10",
+  },
+  {
+    athleteId: 3,
+    metric_type: "height",
+    value: 181,
+    recorded_at: "2025-02-14",
+  },
+  {
+    athleteId: 3,
+    metric_type: "height",
+    value: 182,
+    recorded_at: "2025-02-18",
+  },
 
   { athleteId: 3, metric_type: "weight", value: 74, recorded_at: "2025-02-10" },
   { athleteId: 3, metric_type: "weight", value: 75, recorded_at: "2025-02-12" },
@@ -107,7 +272,7 @@ const athletes = [
     statusColor: "bg-yellow-100 text-yellow-600",
   },
   {
-    id:4,
+    id: 4,
     name: "Raphinha",
     email: "darrellstew@pagedone.io",
     date_of_birth: "Dec. 14, 1996",
@@ -120,7 +285,7 @@ const athletes = [
     statusColor: "bg-red-100 text-red-600",
   },
   {
-    id:5,
+    id: 5,
     name: "Robert Lewandowski",
     email: "lewandowski@pagedone.io",
     date_of_birth: "Aug. 21, 1988",
@@ -256,8 +421,8 @@ const HealthChart = () => {
   const handleFromDateChange = (e) => {
     const newFromDate = e.target.value;
     if (newFromDate > toDate) {
-        alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc!");
-        return;
+      alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc!");
+      return;
     }
     setFromDate(newFromDate);
   };
@@ -265,18 +430,19 @@ const HealthChart = () => {
   const handleToDateChange = (e) => {
     const newToDate = e.target.value;
     if (newToDate < fromDate) {
-        alert("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu!");
-        return;
+      alert("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu!");
+      return;
     }
     setToDate(newToDate);
   };
 
-  
   useEffect(() => {
     const filteredData = sampleData
       .filter((entry) => entry.athleteId === selectedAthlete)
       .filter((entry) => entry.metric_type === selectedMetric)
-      .filter((entry) => entry.recorded_at >= fromDate && entry.recorded_at <= toDate)
+      .filter(
+        (entry) => entry.recorded_at >= fromDate && entry.recorded_at <= toDate
+      )
       .filter((entry) => entry.value !== 0); // Loại bỏ giá trị 0
 
     setChartData({
@@ -296,62 +462,71 @@ const HealthChart = () => {
   }, [selectedAthlete, selectedMetric, fromDate, toDate]);
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
-      <h2 className="text-xl font-bold mb-4">Biểu đồ {selectedMetric}</h2>
+    <div className="w-full sm:px-4 px-4 py-6 pt-28 h-[calc(100vh-0px)] overflow-y-auto  bg-white p-6 rounded-xl shadow-md">
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 xl:col-span-4"></div>
+        <div className="col-span-12 xl:col-span-8">
+          <h2 className="text-xl font-bold mb-4">Biểu đồ {selectedMetric}</h2>
 
-      <div className="flex space-x-2 mb-4">
-        <Select
-          options={metrics.map((m) => ({ value: m, label: m }))}
-          value={{ value: selectedMetric, label: selectedMetric }}
-          onChange={(selected) => setSelectedMetric(selected.value)}
-          isSearchable
-          placeholder="Chọn chỉ số..."
-        />
-        <input
-          type="date"
-          value={fromDate}
-          onChange={handleFromDateChange} 
-          className="p-2 border rounded"
-        />
-        <input
-          type="date"
-          value={toDate}
-          onChange={handleToDateChange} 
-          max={formatDate(today)}
-          className="p-2 border rounded"
-        />
+          <div className="flex space-x-2 mb-4">
+            <Select
+              options={metrics.map((m) => ({ value: m, label: m }))}
+              value={{ value: selectedMetric, label: selectedMetric }}
+              onChange={(selected) => setSelectedMetric(selected.value)}
+              isSearchable
+              placeholder="Chọn chỉ số..."
+            />
+            <input
+              type="date"
+              value={fromDate}
+              onChange={handleFromDateChange}
+              className="p-2 border rounded"
+            />
+            <input
+              type="date"
+              value={toDate}
+              onChange={handleToDateChange}
+              max={formatDate(today)}
+              className="p-2 border rounded"
+            />
+          </div>
+
+          <Line data={chartData} />
+        </div>
       </div>
 
-      <Line data={chartData} />
-
-      <h3 className="text-lg font-semibold mt-6">Chọn vận động viên</h3>
-      <table className="w-full mt-2 border">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Tên</th>
-            <th className="p-2 border">Chọn</th>
-          </tr>
-        </thead>
-        <tbody>
-          {athletes.map((athlete) => (
-            <tr key={athlete.id} className="border">
-              <td className="p-2 border text-center">{athlete.id}</td>
-              <td className="p-2 border">{athlete.name}</td>
-              <td className="p-2 border text-center">
-                <button
-                  onClick={() => setSelectedAthlete(athlete.id)}
-                  className={`px-4 py-1 rounded ${
-                    selectedAthlete === athlete.id ? "bg-blue-500 text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Chọn
-                </button>
-              </td>
+      <div className="grid grid-cols-12 gap-6 pt-6">
+        <h3 className="text-lg font-semibold mt-6">Chọn vận động viên</h3>
+        <table className="w-xl mt-2 border ">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2 border">ID</th>
+              <th className="p-2 border">Tên</th>
+              <th className="p-2 border">Chọn</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {athletes.map((athlete) => (
+              <tr key={athlete.id} className="border">
+                <td className="p-2 border text-center">{athlete.id}</td>
+                <td className="p-2 border">{athlete.name}</td>
+                <td className="p-2 border text-center">
+                  <button
+                    onClick={() => setSelectedAthlete(athlete.id)}
+                    className={`px-4 py-1 rounded ${
+                      selectedAthlete === athlete.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-300"
+                    }`}
+                  >
+                    Chọn
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

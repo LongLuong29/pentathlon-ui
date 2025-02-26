@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Menu, X, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-
 // Dummy Data
 const employees = [
   {
@@ -45,7 +44,7 @@ const employees = [
     statusColor: "bg-yellow-100 text-yellow-600",
   },
   {
-    id:4,
+    id: 4,
     name: "Raphinha",
     email: "darrellstew@pagedone.io",
     date_of_birth: "Dec. 14, 1996",
@@ -58,7 +57,7 @@ const employees = [
     statusColor: "bg-red-100 text-red-600",
   },
   {
-    id:5,
+    id: 5,
     name: "Robert Lewandowski",
     email: "lewandowski@pagedone.io",
     date_of_birth: "Aug. 21, 1988",
@@ -181,10 +180,9 @@ const Athlete = () => {
   const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [athletes, setAthletes] = useState(employees)
+  const [athletes, setAthletes] = useState(employees);
   const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
-
-
+  const [approved, setApproved] = useState(false);
 
   const filteredAthletes = athletes.filter((athlete) =>
     athlete.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -257,7 +255,10 @@ const Athlete = () => {
             </svg>
             <span className="max-md:hidden">Training Schedule</span>
           </button>
-          <button onClick={() => setShowAddAthleteModal(true)} className="group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700">
+          <button
+            onClick={() => setShowAddAthleteModal(true)}
+            className="group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -276,97 +277,97 @@ const Athlete = () => {
           </button>
         </div>
 
+        {/** Add Athlete Modal */}
         {showAddAthleteModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50">
   <div
-    className="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm"
-    onClick={() => setShowAddAthleteModal(false)}
+    className="p-6 rounded-xl w-[600px] text-white"
+    onClick={(e) => e.stopPropagation()}
   >
-    <div
-      className="bg-white p-6 rounded-lg shadow-lg w-96"
-      onClick={(e) => e.stopPropagation()} // Chặn sự kiện click lan ra ngoài
-    >
-      <h2 className="text-lg font-bold mb-4">Add New Athlete</h2>
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-xl font-medium mb-4 text-[#00a884]">Add Athlete</h2>
 
-      {/* Form nhập thông tin */}
-      <label className="block text-sm font-medium mb-1">Full Name</label>
-      <input
-        type="text"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
-      <label className="block text-sm font-medium mb-1">Email</label>
-      <input
-        type="email"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
+      {/* Personal Information */}
+      <div className="mb-4 border-b pb-4">
+        <h3 className="text-lg font-medium mb-2 text-[#00a884]">
+          Personal Information
+        </h3>
 
-      {/* Date of Birth */}
-      <label className="block text-sm font-medium mb-1">Date of Birth</label>
-      <input
-        type="date"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
-      
-        {/* Gender */}
-        <label className="block text-sm font-medium mb-1">Gender</label>
-      <select  className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
+        <div className="mb-3">
+          <label className="block text-gray-700 font-medium">Full Name</label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+            placeholder="Enter full name"
+          />
+        </div>
 
-      {/* Phone */}
-      <label className="block text-sm font-medium mb-1">Phone Number</label>
-      <input
-        type="text"
-        placeholder="Phone Number"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
+        <div className="flex gap-4">
+          <div className="w-1/2">
+            <label className="block text-gray-700 font-medium">Gender</label>
+            <select className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
+              <option>Select Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+          <div className="w-1/2">
+            <label className="block text-gray-700 font-medium">Date of Birth</label>
+            <input
+              type="date"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+            />
+          </div>
+        </div>
 
-      {/* Address */}
-      <label className="block text-sm font-medium mb-1">Address</label>
-      <input
-        type="text"
-        placeholder="Address"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
-
-      {/* Avatar */}
-      <label className="block text-sm font-medium mb-1">Upload Avatar</label>
-      <input
-        type="file"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-        accept="image/*"
-      />
-{/* 
-      <label className="block text-sm font-medium mb-1">Join Date</label>
-      <input
-        type="date"
-        placeholder="Join Date"
-        className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
-
-      <label className="block text-sm font-medium mb-1"></label>
-      <select className="border border-gray-700 p-2 w-full rounded-md mb-3 focus:outline-none focus:ring-1 focus:ring-gray-500"      >
-        <option value="Active">Active</option>
-        <option value="Inactive">Inactive</option>
-      </select> */}
-
-      {/* Nút hành động */}
-      <div className="flex justify-end gap-2">
-        <button
-          onClick={() => setShowAddAthleteModal(false)}
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Save
-        </button>
+        <div className="mt-4 flex flex-col items-center">
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer border-2 border-[#00a884] hover:bg-gray-300 transition">
+            <span className="text-[#00a884] text-xl">+</span>
+          </div>
+          <span className="text-sm text-gray-500 mt-2 font-medium">
+            Profile Picture
+          </span>
+        </div>
       </div>
+
+      {/* Contact Information */}
+      <div className="mb-4">
+        <h3 className="text-lg font-medium mb-2 text-[#00a884]">
+          Contact Information
+        </h3>
+        
+        {[
+          { label: "Email", type: "email", placeholder: "Enter email" },
+          { label: "Phone Number", type: "text", placeholder: "Enter phone number" },
+        ].map(({ label, type, placeholder }, index) => (
+          <div className="mb-3" key={index}>
+            <label className="block text-gray-700 font-medium">{label}</label>
+            <input
+              type={type}
+              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+              placeholder={placeholder}
+            />
+          </div>
+        ))}
+
+        <div className="mb-3">
+          <label className="block text-gray-700 font-medium">Address</label>
+          <textarea
+            className="w-full border border-gray-300 rounded-lg p-2 h-20 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+            placeholder="Enter address"
+          ></textarea>
+        </div>
+      </div>
+
+      {/* Save Button */}
+      <button className="w-full bg-[#00a884] text-white py-2 rounded-lg font-medium hover:bg-green-600 transition">
+        Save
+      </button>
     </div>
   </div>
-)}
+</div>
 
-
+        )}
 
         {/* Hidden button for mobile */}
         <div className="flex items-center gap-2 sm:hidden">
@@ -704,7 +705,10 @@ const Athlete = () => {
                                   </span>
                                 </li>
                                 <li className="flex items-center justify-start gap-1.5">
-                                  <button onClick={() => handleStatsClick(emp.id)} className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900">
+                                  <button
+                                    onClick={() => handleStatsClick(emp.id)}
+                                    className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900"
+                                  >
                                     <svg
                                       className="stroke-gray-500 transition-all duration-300 group-hover:stroke-gray-900"
                                       width="24"
