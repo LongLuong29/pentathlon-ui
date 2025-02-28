@@ -1,192 +1,24 @@
 import { useState } from "react";
-import { Menu, X, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import athleteList from "../data/athleteList";
 
-// Dummy Data
-const employees = [
-  {
-    id: 1,
-    name: "Lionel Messi",
-    email: "leomessi@pagedone.io",
-    date_of_birth: "Jun. 26, 1987",
-    gender: "Male",
-    phone: "0389871888",
-    adress: "Argentina",
-    avatar: "../../public/messi.jpg",
-    joinDate: "Feb. 23, 2023",
-    status: "Inactive",
-    statusColor: "bg-red-100 text-red-600",
-  },
-  {
-    id: 2,
-    name: "Karina",
-    email: "karina@pagedone.io",
-    date_of_birth: "Apr. 11, 2000",
-    gender: "Female",
-    phone: "0919030799",
-    adress: "Korea",
-    avatar: "../../public/karina.jpg",
-    joinDate: "Jun. 24, 2023",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
-  {
-    id: 3,
-    name: "Lamine Yamal",
-    email: "yamal@pagedone.io",
-    date_of_birth: "Jul. 13, 2007",
-    gender: "Male",
-    phone: "0378856745",
-    adress: "Spain",
-    avatar: "../../public/yamal.jpg",
-    joinDate: "Oct. 23, 2023",
-    status: "Onboarding",
-    statusColor: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    id: 4,
-    name: "Raphinha",
-    email: "darrellstew@pagedone.io",
-    date_of_birth: "Dec. 14, 1996",
-    gender: "Male",
-    phone: "0789876543",
-    adress: "Brazil",
-    avatar: "../../public/raphinha.jpg",
-    joinDate: "Jul. 12, 2023",
-    status: "Inactive",
-    statusColor: "bg-red-100 text-red-600",
-  },
-  {
-    id: 5,
-    name: "Robert Lewandowski",
-    email: "lewandowski@pagedone.io",
-    date_of_birth: "Aug. 21, 1988",
-    gender: "Male",
-    phone: "0394857643",
-    adress: "Poland",
-    avatar: "../../public/lewandowski.jpg",
-    joinDate: "Oct. 23, 2023",
-    status: "Onboarding",
-    statusColor: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    id: 6,
-    name: "Ferran Torres",
-    email: "torres@pagedone.io",
-    date_of_birth: "Apr. 11, 2000",
-    gender: "Male",
-    phone: "0712938465",
-    adress: "Foios, Spain",
-    avatar: "../../public/torres.jpg",
-    joinDate: "Feb. 29, 200",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
-  {
-    id: 7,
-    name: "Frenkie De Jong",
-    email: "dejong@pagedone.io",
-    date_of_birth: "May. 12, 1997",
-    gender: "Male",
-    phone: "0719971205",
-    adress: "Arkel, Netherlands",
-    avatar: "../../public/dejong.jpg",
-    joinDate: "Jun. 24, 2023",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
-  {
-    id: 8,
-    name: "Dani Olmo",
-    email: "olmo@pagedone.io",
-    date_of_birth: "May. 07, 1998",
-    gender: "Male",
-    phone: "0319980705",
-    adress: "Terrassa, Spain",
-    avatar: "../../public/olmo.jpg",
-    joinDate: "Jun. 24, 2023",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
-  {
-    id: 9,
-    name: "Marc Casadó",
-    email: "casado@pagedone.io",
-    date_of_birth: "Sep. 14, 2003",
-    gender: "Male",
-    phone: "0341903002",
-    adress: "Spain",
-    avatar: "../../public/casado.jpg",
-    joinDate: "Feb. 23, 2023",
-    status: "Inactive",
-    statusColor: "bg-red-100 text-red-600",
-  },
-  {
-    id: 10,
-    name: "Pedri",
-    email: "pedri@pagedone.io",
-    date_of_birth: "Nov. 25, 2002",
-    gender: "Male",
-    phone: "0377252002",
-    adress: "Tegueste, Spain",
-    avatar: "../../public/pedri.jpg",
-    joinDate: "Oct. 23, 2023",
-    status: "Onboarding",
-    statusColor: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    id: 11,
-    name: "Pablo Gavi",
-    email: "gavi@pagedone.io",
-    date_of_birth: "Aug. 05, 2004",
-    gender: "Male",
-    phone: "0788052004",
-    adress: "Los Palacios y Villafranca, Spain",
-    avatar: "../../public/gavi.jpg",
-    joinDate: "Jul. 12, 2023",
-    status: "Inactive",
-    statusColor: "bg-red-100 text-red-600",
-  },
-  {
-    id: 12,
-    name: "Eric Garcia",
-    email: "garcia@pagedone.io",
-    date_of_birth: "Jan. 09, 2001",
-    gender: "Male",
-    phone: "0310200190",
-    adress: "Martorell, Spain",
-    avatar: "../../public/garcia.jpg",
-    joinDate: "Oct. 23, 2023",
-    status: "Onboarding",
-    statusColor: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    id: 13,
-    name: "Pau Cubarsí",
-    email: "cubarsi@pagedone.io",
-    date_of_birth: "Jan. 22, 2007",
-    gender: "Male",
-    phone: "0722012072",
-    adress: "Bescanó, Spain",
-    avatar: "../../public/cubarsi.jpg",
-    joinDate: "Feb. 29, 200",
-    status: "Active",
-    statusColor: "bg-green-100 text-green-600",
-  },
-];
+
 
 const Athlete = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [athletes, setAthletes] = useState(employees);
+  const [athletes, setAthletes] = useState(athleteList);
   const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
-  const [approved, setApproved] = useState(false);
 
   const filteredAthletes = athletes.filter((athlete) =>
     athlete.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const closeModal = () => {
+    setShowAddAthleteModal(false);
+  };
 
   const handleStatsClick = (athleteID) => {
     navigate("/analyst", { state: { athleteID } }); // Điều hướng sang trang /analyst
@@ -196,6 +28,9 @@ const Athlete = () => {
   const toggleDropdown = (rowId) => {
     setOpenRowId(openRowId === rowId ? null : rowId); // Nếu đang mở thì đóng, nếu đang đóng thì mở
   };
+
+  const sportsOptions = ["Bơi", "Chạy", "Bắn súng", "Đấu kiếm"];
+  const ageGroupOptions = ["U16", "U19", "U20", "U23", "National"];
 
   return (
     <div>
@@ -257,7 +92,7 @@ const Athlete = () => {
           </button>
           <button
             onClick={() => setShowAddAthleteModal(true)}
-            className="group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700"
+            className="hover:cursor-pointer group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-800 hover:border-indigo-800"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -279,94 +114,117 @@ const Athlete = () => {
 
         {/** Add Athlete Modal */}
         {showAddAthleteModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50">
-  <div
-    className="p-6 rounded-xl w-[600px] text-white"
-    onClick={(e) => e.stopPropagation()}
-  >
-    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-xl font-medium mb-4 text-[#00a884]">Add Athlete</h2>
+          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50" onClick={closeModal}>
+            <div
+              className="p-6 rounded-xl w-[500px] text-black h-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+                <h2 className="text-xl font-medium mb-4 text-[#00a884]">
+                  Add Athlete
+                </h2>
 
-      {/* Personal Information */}
-      <div className="mb-4 border-b pb-4">
-        <h3 className="text-lg font-medium mb-2 text-[#00a884]">
-          Personal Information
-        </h3>
+                {/* Personal Information */}
+                <div className="mb-4 border-b pb-4">
+                  {/** AVATAR */}
+                  <div className="mt-4 flex flex-col items-center">
+                    <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer border-2 border-[#00a884] hover:bg-gray-300 transition">
+                      <span className="text-[#00a884] text-xl">+</span>
+                    </div>
+                    <span className="text-sm text-gray-500 mt-2 font-medium">
+                      Profile Picture
+                    </span>
+                  </div>
 
-        <div className="mb-3">
-          <label className="block text-gray-700 font-medium">Full Name</label>
-          <input
-            type="text"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-            placeholder="Enter full name"
-          />
-        </div>
+                  <h3 className="text-lg font-medium mb-2 text-[#00a884]">
+                    Personal Information
+                  </h3>
 
-        <div className="flex gap-4">
-          <div className="w-1/2">
-            <label className="block text-gray-700 font-medium">Gender</label>
-            <select className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
-              <option>Select Gender</option>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
+                  {/** FULLNAME */}
+                  <div className="mb-3">
+                    <label className="block text-gray-700 font-medium">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                      placeholder="Enter full name"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    {/** GENDER */}
+                    <div className="w-1/2">
+                      <label className="block text-gray-700 font-medium">
+                        Gender
+                      </label>
+                      <select className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
+                        <option>Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>
+                    </div>
+
+                    {/** DATE OF BIRTH */}
+                    <div className="w-1/2">
+                      <label className="block text-gray-700 font-medium">
+                        Date of Birth
+                      </label>
+                      <input
+                        type="date"
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contact Information */}
+                <div className="mb-4">
+                  <h3 className="text-lg font-medium mb-2 text-[#00a884]">
+                    Contact Information
+                  </h3>
+
+                  {[
+                    {
+                      label: "Email",
+                      type: "email",
+                      placeholder: "Enter email",
+                    },
+                    {
+                      label: "Phone Number",
+                      type: "text",
+                      placeholder: "Enter phone number",
+                    },
+                  ].map(({ label, type, placeholder }, index) => (
+                    <div className="mb-3" key={index}>
+                      <label className="block text-gray-700 font-medium">
+                        {label}
+                      </label>
+                      <input
+                        type={type}
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                        placeholder={placeholder}
+                      />
+                    </div>
+                  ))}
+
+                  <div className="mb-3">
+                    <label className="block text-gray-700 font-medium">
+                      Address
+                    </label>
+                    <textarea
+                      className="w-full border border-gray-300 rounded-lg p-2 h-20 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                      placeholder="Enter address"
+                    ></textarea>
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <button className="w-full bg-[#00a884] text-white py-2 rounded-lg font-medium hover:bg-green-600 transition">
+                  Save
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="w-1/2">
-            <label className="block text-gray-700 font-medium">Date of Birth</label>
-            <input
-              type="date"
-              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer border-2 border-[#00a884] hover:bg-gray-300 transition">
-            <span className="text-[#00a884] text-xl">+</span>
-          </div>
-          <span className="text-sm text-gray-500 mt-2 font-medium">
-            Profile Picture
-          </span>
-        </div>
-      </div>
-
-      {/* Contact Information */}
-      <div className="mb-4">
-        <h3 className="text-lg font-medium mb-2 text-[#00a884]">
-          Contact Information
-        </h3>
-        
-        {[
-          { label: "Email", type: "email", placeholder: "Enter email" },
-          { label: "Phone Number", type: "text", placeholder: "Enter phone number" },
-        ].map(({ label, type, placeholder }, index) => (
-          <div className="mb-3" key={index}>
-            <label className="block text-gray-700 font-medium">{label}</label>
-            <input
-              type={type}
-              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-              placeholder={placeholder}
-            />
-          </div>
-        ))}
-
-        <div className="mb-3">
-          <label className="block text-gray-700 font-medium">Address</label>
-          <textarea
-            className="w-full border border-gray-300 rounded-lg p-2 h-20 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-            placeholder="Enter address"
-          ></textarea>
-        </div>
-      </div>
-
-      {/* Save Button */}
-      <button className="w-full bg-[#00a884] text-white py-2 rounded-lg font-medium hover:bg-green-600 transition">
-        Save
-      </button>
-    </div>
-  </div>
-</div>
-
         )}
 
         {/* Hidden button for mobile */}

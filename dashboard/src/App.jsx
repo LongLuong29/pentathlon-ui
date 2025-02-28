@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
-import Analyst from "./components/Analyst";
-import Calendar from "./components/Calendar";
-import Athlete from "./components/Athlete";
+import Dashboard from "./pages/Dashboard";
+import Analyst from "./pages/Analyst";
+import Calendar from "./pages/Calendar";
+import Athlete from "./pages/Athlete";
 
 function App() {
   return (
@@ -28,9 +28,6 @@ function App() {
 
 export default App;
 
-
-// import { useState } from "react";
-// import { Menu, X } from "lucide-react";
 
 // const Dashboard = () => {
 //   const [isSidebarOpen, setSidebarOpen] = useState(false);
