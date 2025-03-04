@@ -2,16 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-
 const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
-    const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
+  const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
   const navigate = useNavigate();
 
   const handleStatsClick = (athleteID) => {
     navigate("/analyst", { state: { athleteID } }); // Điều hướng sang trang /analyst
   };
 
-// Toggle dropdown của hàng cụ thể
+  // Toggle dropdown của hàng cụ thể
   const toggleDropdown = (rowId) => {
     setOpenRowId(openRowId === rowId ? null : rowId); // Nếu đang mở thì đóng, nếu đang đóng thì mở
   };
@@ -226,24 +225,13 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                                 </li>
                                 <li className="flex items-center justify-start gap-1.5">
                                   <button
-                                    onClick={() => handleStatsClick(athlete.id)}
+                                    onClick={() => onStatsClick(athlete.id)}
                                     className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900"
                                   >
-                                    <svg
-                                      className="stroke-gray-500 transition-all duration-300 group-hover:stroke-gray-900"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M4.99988 7.01655L5.29937 14.8033C5.41239 17.7418 5.4689 19.211 6.40707 20.1138C7.34525 21.0165 8.81531 21.0165 11.7554 21.0165H12.2432C15.1841 21.0165 16.6546 21.0165 17.5927 20.1138C18.5309 19.211 18.5874 17.7418 18.7004 14.8033L18.9999 7.01655M9.99988 13.0165V16.0165M13.9999 13.0165V16.0165M20.4705 4.4499C18.6467 4.29032 17.7348 4.21052 16.8228 4.15271C13.6108 3.9491 10.389 3.9491 7.17694 4.15271C6.26493 4.21052 5.35305 4.29032 3.5293 4.4499M13.7646 3.96873C13.7646 3.96873 13.3991 2.99999 11.647 3C9.89478 3.00001 9.5293 3.96872 9.5293 3.96872"
-                                        stroke=""
-                                        strokeWidth="1.6"
-                                        strokeLinecap="round"
-                                      ></path>
-                                    </svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
+</svg>
+
                                   </button>
                                   <span className="text-sm font-medium text-gray-700">
                                     Stats
