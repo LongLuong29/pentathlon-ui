@@ -69,7 +69,7 @@ const Header = ({ onSearch, onAddAthlete }) => {
         </button>
         {/** Add Athlete Button */}
         <button
-          //   onClick={() => setShowAddAthleteModal(true)}
+            onClick={onAddAthlete}
           className="hover:cursor-pointer group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-800 hover:border-indigo-800"
         >
           <svg

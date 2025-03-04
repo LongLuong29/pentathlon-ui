@@ -141,12 +141,11 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
               <path d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" />
             </svg>
             Pentathlon Sport
-            <button className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100">
+            <button className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100" onClick={() => setSidebarOpen(false)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 className="size-4"
-                onClick={() => setSidebarOpen(false)}
               >
                 <path d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" />
               </svg>
