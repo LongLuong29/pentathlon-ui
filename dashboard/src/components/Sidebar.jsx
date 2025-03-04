@@ -119,7 +119,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
           </button>
         </div>
       </div>
-      {/* Sidebar link */}
+      {/* Sidebar menu */}
       <nav className="flex-1 overflow-hidden overflow-y-auto pt-6 text-gray-400 ">
         <h5 className="py-1.5 pl-3 text-xs font-medium text-gray-400 uppercase">
           MENU
@@ -151,9 +151,9 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
             </div>
             <div className="name-email">
               <p className="font-semibold text-xs text-gray-900 mb-0.5">
-                Ronald Richards
+                Admin
               </p>
-              <p className="font-medium text-xs text-gray-500">@ronaldrich</p>
+              <p className="font-medium text-xs text-gray-500">@admin</p>
             </div>
           </div>
           <button className="rounded-full p-0.5 bg-white transition-all duration-500 hover:bg-gray-100">
