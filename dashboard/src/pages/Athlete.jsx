@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import athleteList from "../data/athleteList";
+import {athleteList , updateAthleteList} from "../data/athleteList";
 import Header from "../components/Header";
 import AthleteList from "../components/AthleteList";
 
@@ -9,6 +9,27 @@ const Athlete = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
   const navigate = useNavigate();
+
+  // State lưu trữ form data
+  const [athleteData, setAthleteData] = useState({
+    fullName: "",
+    gender: "",
+    dob: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
+  // Hàm xử lý nhập liệu
+  const handleChange = (e) => {
+    setAthleteData({ ...athleteData, [e.target.name]: e.target.value });
+  };
+
+  // Hàm xử lý lưu dữ liệu
+  const handleSave = () => {
+    console.log(athleteData)
+    updateAthleteList(athleteData)
+  }
 
   // Lọc vận động viên theo tên
   const filteredAthletes = athletes.filter((athlete) =>
@@ -67,12 +88,15 @@ const Athlete = () => {
                 {/* FULLNAME */}
                 <div className="mb-2">
                   <label className="block text-gray-700 text-sm font-medium">
-                    Full Name
+                    Full Name*
                   </label>
                   <input
                     type="text"
+                    name="fullName"
                     className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
                     placeholder="Enter full name"
+                    value={athleteData.fullName}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -80,9 +104,13 @@ const Athlete = () => {
                   {/* GENDER */}
                   <div className="w-1/2">
                     <label className="block text-gray-700 text-sm font-medium">
-                      Gender
+                      Gender*
                     </label>
-                    <select className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
+                    <select 
+                    name="gender"
+                    value={athleteData.gender}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
                       <option>Select Gender</option>
                       <option>Male</option>
                       <option>Female</option>
@@ -96,6 +124,9 @@ const Athlete = () => {
                     </label>
                     <input
                       type="date"
+                      name="dob"
+                      value={athleteData.dob}
+                      onChange={handleChange}
                       placeholder="Select Date of Birth"
                       className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
                     />
@@ -108,25 +139,32 @@ const Athlete = () => {
                 <h3 className="text-md font-medium mb-2 text-[#00a884]">
                   Contact Information
                 </h3>
-                {[
-                  { label: "Email", type: "email", placeholder: "Enter email" },
-                  {
-                    label: "Phone Number",
-                    type: "text",
-                    placeholder: "Enter phone number",
-                  },
-                ].map(({ label, type, placeholder }, index) => (
-                  <div className="mb-2" key={index}>
+                <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-medium">
-                      {label}
+                      Email*
                     </label>
                     <input
-                      type={type}
+                      type = "email"
+                      name= "email"
                       className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-                      placeholder={placeholder}
+                      placeholder="Enter your email"
+                      value={athleteData.email}
+                      onChange={handleChange}
                     />
                   </div>
-                ))}
+                  <div className="mb-2">
+                    <label className="block text-gray-700 text-sm font-medium">
+                      Phone*
+                    </label>
+                    <input
+                      type="text"
+                      name="phone"
+                      className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                      placeholder="Enter your phone"
+                      value={athleteData.phone}
+                      onChange={handleChange}
+                    />
+                  </div>
 
                 <div className="mb-2">
                   <label className="block text-gray-700 text-sm font-medium">
@@ -135,13 +173,18 @@ const Athlete = () => {
                   <textarea
                     className="w-full border border-gray-300 rounded-lg p-1.5 text-sm h-16 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
                     placeholder="Enter address"
+                    name="address"
+                    value={athleteData.address}
+                    onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
 
               {/*Save-Close Button */}
               <div className="grid grid-cols-2 gap-1">
-                <button className="bg-[#00a884] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#03634f] transition">
+                <button 
+                 onClick={handleSave}
+                 className="bg-[#00a884] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#03634f] transition">
                   Save
                 </button>
                 <button onClick={() => setShowAddAthleteModal(false)}

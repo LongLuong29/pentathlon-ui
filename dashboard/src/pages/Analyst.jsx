@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import Select from "react-select";
-import athleteList from "../data/athleteList";
+import {athleteList} from "../data/athleteList";
 import { metrics, metrics_type } from "../data/metric";
 
 const sampleData = metrics;

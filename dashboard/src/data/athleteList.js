@@ -8,7 +8,7 @@ const sport = [
 const age_group = [];
 
 
-const athleteList = [
+export let athleteList = [
     {
       id: 1,
       name: "Lionel Messi",
@@ -180,7 +180,8 @@ const athleteList = [
     },
 ];
 
-export default athleteList;
-
+export const updateAthleteList = (newAthleteList) => {
+  athleteList = newAthleteList; // update lai mang athlete
+}
 
 
