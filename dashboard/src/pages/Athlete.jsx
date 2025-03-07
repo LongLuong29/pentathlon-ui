@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {athleteList , updateAthleteList} from "../data/athleteList";
 import Header from "../components/Header";
 import AthleteList from "../components/AthleteList";
 
 const Athlete = () => {
-  const [athletes, setAthletes] = useState(athleteList);
+  const [athletes, setAthletes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
   const navigate = useNavigate();
@@ -20,6 +23,23 @@ const Athlete = () => {
     address: "",
   });
 
+  useEffect(() => {
+    const fetchAthletes = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/athletes");
+        setAthletes(response.data);
+      } catch (err) {
+        setError("Failed to fetch athletes");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAthletes();
+  }, []);
+
+  if (loading) return <p>Loading athletes...</p>;
+  if (error) return <p>{error}</p>;
+
   // Hàm xử lý nhập liệu
   const handleChange = (e) => {
     setAthleteData({ ...athleteData, [e.target.name]: e.target.value });
@@ -32,9 +52,10 @@ const Athlete = () => {
   }
 
   // Lọc vận động viên theo tên
-  const filteredAthletes = athletes.filter((athlete) =>
-    athlete.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filteredAthletes = athletes.filter((athlete) =>
+  (athlete.fullName?.toLowerCase() ?? "").includes(searchTerm.toLowerCase())
+);
+
 
   const handleStatsClick = (athleteID) => {
     navigate("/analyst", { state: { athleteID } });
@@ -50,7 +71,7 @@ const Athlete = () => {
 
       {/* Athlete List Component */}
       <AthleteList
-        athletes={filteredAthletes}
+        athletes={athletes}
         onStatsClick={handleStatsClick}
       />
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { formatDate } from '../utils/index';
 
 const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
   const [openRowId, setOpenRowId] = useState(null); // Lưu ID của hàng đang mở dropdown
@@ -123,13 +124,13 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                         <td className="pxy-3.5 pl-4 py-3">
                           <div className="w-48 flex items-center gap-3">
                             <img
-                              src={athlete.avatar || "../../public/karina.jpg"}
+                              src={athlete.avatar || "../../public/default_user_image.png"}
                               className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                              alt={athlete.name}
+                              alt={athlete.fullname}
                             />
                             <div className="data">
                               <p className="font-medium text-xs text-gray-800">
-                                {athlete.name}
+                                {athlete.fullname}
                               </p>
                               <p className="font-normal text-xs text-gray-400">
                                 {athlete.email}
@@ -141,7 +142,7 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                           {athlete.gender}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          {athlete.date_of_birth}
+                          {formatDate(athlete.date_of_birth)}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
                           {athlete.phone}
@@ -261,60 +262,6 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
         </div>
       </div>
     </>
-
-    // <div className="w-full px-4 py-6 pt-28">
-    //   <div className="rounded-xl border border-gray-200 overflow-auto">
-    //     <table className="w-full">
-    //       <thead>
-    //         <tr className="bg-gray-50">
-    //           <th className="py-3 px-4 text-left">Full Name & Email</th>
-    //           <th className="py-3 px-4 text-left">Gender</th>
-    //           <th className="py-3 px-4 text-left">Date of Birth</th>
-    //           <th className="py-3 px-4 text-left">Mobile Number</th>
-    //           <th className="py-3 px-4 text-left">Address</th>
-    //           {extraColumns.map((col, index) => (
-    //             <th key={index} className="py-3 px-4 text-left">{col.header}</th>
-    //           ))}
-    //           <th className="py-3 px-4 text-left">Actions</th>
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         {athletes.map((athlete, index) => (
-    //           <tr key={index} className="hover:bg-gray-50">
-    //             <td className="py-3 px-4">
-    //               <div className="flex items-center gap-3">
-    //                 <img
-    //                   src={athlete.avatar || "../../public/download.jpg"}
-    //                   className="h-10 w-10 rounded-full"
-    //                   alt={athlete.name}
-    //                 />
-    //                 <div>
-    //                   <p className="font-medium">{athlete.name}</p>
-    //                   <p className="text-gray-500">{athlete.email}</p>
-    //                 </div>
-    //               </div>
-    //             </td>
-    //             <td className="py-3 px-4">{athlete.gender}</td>
-    //             <td className="py-3 px-4">{athlete.date_of_birth}</td>
-    //             <td className="py-3 px-4">{athlete.phone}</td>
-    //             <td className="py-3 px-4">{athlete.address}</td>
-    //             {extraColumns.map((col, index) => (
-    //               <td key={index} className="py-3 px-4">{col.render(athlete)}</td>
-    //             ))}
-    //             <td className="py-3 px-4">
-    //               <button
-    //                 onClick={() => onStatsClick(athlete.id)}
-    //                 className="px-3 py-1 bg-blue-500 text-white rounded-md"
-    //               >
-    //                 Stats
-    //               </button>
-    //             </td>
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //   </div>
-    // </div>
   );
 };
 
