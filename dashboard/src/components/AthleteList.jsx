@@ -8,6 +8,7 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
   const navigate = useNavigate();
 
   const handleStatsClick = (athleteID) => {
+    console.log(athleteID)
     navigate("/analyst", { state: { athleteID } }); // Điều hướng sang trang /analyst
   };
 
@@ -142,7 +143,7 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                           {athlete.gender}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
-                          {formatDate(athlete.date_of_birth)}
+                          {formatDate(athlete.date_of_birth )}
                         </td>
                         <td className="py-3.5 pl-4 whitespace-nowrap text-xs font-normal text-gray-800">
                           {athlete.phone}
@@ -226,7 +227,7 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                                 </li>
                                 <li className="flex items-center justify-start gap-1.5">
                                   <button
-                                    onClick={() => onStatsClick(athlete.id)}
+                                    onClick={() => handleStatsClick(athlete.id)}
                                     className="group py-2 px-2 flex items-center gap-1.5 font-medium text-sm text-gray-500 border border-solid border-gray-300 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-900"
                                   >
                                     <svg
