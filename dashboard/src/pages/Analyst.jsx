@@ -117,42 +117,71 @@ const Analyst = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Analyst Page</h2>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+      <h2 className="text-2xl font-bold mb-4 text-center mr-auto">Analyst Page</h2>
+      {/** Add Athlete Button */}
+      <div>
+      <button
+            // onClick={onAddAthlete}
+          className="hover:cursor-pointer group py-2 px-4 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm ml-auto text-white border border-solid border-[#00a884] bg-[#00a884] rounded-lg transition-all duration-300 hover:bg-[#008c6a] hover:border-[#008c6a] w-auto"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 18 18"
+            fill="none"
+          >
+            <path
+              d="M9 4.5V13.5M13.5 9H4.5"
+              stroke="white"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+            ></path>
+          </svg>
+          <span className="max-md:hidden">Add Health Record</span>
+      </button>
+      </div>
+      </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
-        <div className="mb-4 relative">
-  <label className="block font-semibold">Chọn vận động viên:</label>
-  <input
-    type="text"
-    placeholder="Tìm kiếm..."
-    value={searchAthlete}
-    onChange={(e) => {
-      setSearchAthlete(e.target.value);
-      setDropdownOpen(true); // Mở dropdown khi nhập
-    }}
-    className="w-full p-2 border rounded"
-  />
-  {dropdownOpen && searchAthlete && (
-    <ul className="absolute z-10 w-full bg-white border rounded shadow-md mt-1 max-h-40 overflow-y-auto">
-      {athletes
-        .filter((athlete) => athlete.fullname.toLowerCase().includes(searchAthlete.toLowerCase()))
-        .map((athlete) => (
-          <li
-            key={athlete.id}
-            className="p-2 hover:bg-gray-200 cursor-pointer"
-            onClick={() => {
-              setSelectedAthlete(athlete.id);
-              setSearchAthlete(athlete.fullname); // Điền vào input
-              setDropdownOpen(false); // Ẩn dropdown sau khi chọn
-            }}
-          >
-            {athlete.fullname}
-          </li>
-        ))}
-    </ul>
-  )}
-</div>
-
+          <div className="mb-4 relative">
+            <label className="block font-semibold">Chọn vận động viên:</label>
+            <input
+              type="text"
+              placeholder="Nhập tên VĐV..."
+              value={searchAthlete}
+              onChange={(e) => {
+                setSearchAthlete(e.target.value);
+                setDropdownOpen(true); // Mở dropdown khi nhập
+              }}
+              className="w-full p-2 border rounded"
+            />
+            {dropdownOpen && searchAthlete && (
+              <ul className="absolute z-10 w-full bg-white border rounded shadow-md mt-1 max-h-40 overflow-y-auto">
+                {athletes
+                  .filter((athlete) =>
+                    athlete.fullname
+                      .toLowerCase()
+                      .includes(searchAthlete.toLowerCase())
+                  )
+                  .map((athlete) => (
+                    <li
+                      key={athlete.id}
+                      className="p-2 hover:bg-gray-200 cursor-pointer"
+                      onClick={() => {
+                        setSelectedAthlete(athlete.id);
+                        setSearchAthlete(athlete.fullname); // Điền vào input
+                        setDropdownOpen(false); // Ẩn dropdown sau khi chọn
+                      }}
+                    >
+                      {athlete.fullname}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
         </div>
         <div>
           <label className="block font-semibold">
