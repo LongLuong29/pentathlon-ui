@@ -50,20 +50,19 @@ const Analyst = () => {
   const [toDate, setToDate] = useState(today);
   const [isHealthRecordModalOpen, setIsHealthRecordModalOpen] = useState(false);
 
-    // Hàm load lại dữ liệu health records
-    const fetchHealthRecords = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/health-records");
-        console.log("fetched")
-        setHealthRecords(response.data);
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu health records:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchHealthRecords(); // Gọi API khi component mount
-    }, []);
+  // Hàm load lại dữ liệu health records
+  const fetchHealthRecords = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/health-records"
+      );
+      console.log("fetched");
+      setHealthRecords(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu health records:", error);
+    }
+  };
+
   const handleSaveRecord = (data) => {
     console.log("Hồ sơ sức khỏe đã lưu:", data);
     // Gửi API hoặc xử lý logic tại đây
@@ -73,7 +72,7 @@ const Analyst = () => {
     setSelectedAthlete("");
     setSelectedMetricGroup("");
     setSelectedHealthMetric("");
-  };  
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +102,9 @@ const Analyst = () => {
     setSelectedHealthMetric(""); // Reset chỉ số sức khỏe đã chọn
     if (selectedMetricGroup) {
       axios
-        .get(`http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`)
+        .get(
+          `http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`
+        )
         .then((res) => {
           const metrics = Array.isArray(res.data) ? res.data : [];
           setHealthMetrics(metrics);
@@ -148,11 +149,10 @@ const Analyst = () => {
           });
         })
         .catch((err) => {
-           console.error("Failed to fetch health records", err);
-           setChartData([]); // Reset biểu đồ nếu lỗi API
+          console.error("Failed to fetch health records", err);
+          setChartData([]); // Reset biểu đồ nếu lỗi API
         });
-    }
-    else {
+    } else {
       setChartData([]); // Reset biểu đồ nếu chưa chọn đủ thông tin
       return;
     }
@@ -188,19 +188,18 @@ const Analyst = () => {
             <span className="max-md:hidden">Add Health Record</span>
           </button>
           {isHealthRecordModalOpen && (
-        <AddHealthRecordModal
-          athletes={athletes}
-          metricGroups={metricGroups}
-          // healthMetrics={healthMetrics}
-          onResetFilters={resetFilters} // Reset các bộ lọc
-          onClose={() => setIsHealthRecordModalOpen(false)}
-          onSave={handleSaveRecord}
-          onSuccess={fetchHealthRecords}
-        />
-      )}
+            <AddHealthRecordModal
+              athletes={athletes}
+              metricGroups={metricGroups}
+              // healthMetrics={healthMetrics}
+              onResetFilters={resetFilters} // Reset các bộ lọc
+              onClose={() => setIsHealthRecordModalOpen(false)}
+              onSave={handleSaveRecord}
+              onSuccess={fetchHealthRecords}
+            />
+          )}
         </div>
       </div>
-
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
