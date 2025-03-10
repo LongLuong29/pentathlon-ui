@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { formatDate } from "../utils/index";
+import AddHealthRecordModal from "../components/AddHealthRecord";
 
 // Đăng ký các thành phần cần thiết
 Chart.register(
@@ -39,6 +40,7 @@ const Analyst = () => {
   const [searchAthlete, setSearchAthlete] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  //set ngay thang
   const today = new Date().toISOString().split("T")[0];
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -46,6 +48,32 @@ const Analyst = () => {
 
   const [fromDate, setFromDate] = useState(defaultFromDate);
   const [toDate, setToDate] = useState(today);
+  const [isHealthRecordModalOpen, setIsHealthRecordModalOpen] = useState(false);
+
+    // Hàm load lại dữ liệu health records
+    const fetchHealthRecords = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/health-records");
+        console.log("fetched")
+        setHealthRecords(response.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu health records:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchHealthRecords(); // Gọi API khi component mount
+    }, []);
+  const handleSaveRecord = (data) => {
+    console.log("Hồ sơ sức khỏe đã lưu:", data);
+    // Gửi API hoặc xử lý logic tại đây
+  };
+
+  const resetFilters = () => {
+    setSelectedAthlete("");
+    setSelectedMetricGroup("");
+    setSelectedHealthMetric("");
+  };  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,17 +100,25 @@ const Analyst = () => {
   }, []);
 
   useEffect(() => {
+    setSelectedHealthMetric(""); // Reset chỉ số sức khỏe đã chọn
     if (selectedMetricGroup) {
       axios
-        .get(
-          `http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`
-        )
-        .then((res) =>
-          setHealthMetrics(Array.isArray(res.data) ? res.data : [])
-        )
-        .catch((err) => console.error("Failed to fetch health metrics", err));
+        .get(`http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`)
+        .then((res) => {
+          const metrics = Array.isArray(res.data) ? res.data : [];
+          setHealthMetrics(metrics);
+          if (metrics.length === 0) {
+            setSelectedHealthMetric(""); // Reset nếu không có dữ liệu
+          }
+        })
+        .catch(() => {
+          console.log("error");
+          setHealthMetrics([]);
+          setSelectedHealthMetric("");
+        });
     } else {
       setHealthMetrics([]);
+      setSelectedHealthMetric(""); // Reset khi nhóm chỉ số rỗng
     }
   }, [selectedMetricGroup]);
 
@@ -111,39 +147,61 @@ const Analyst = () => {
             ],
           });
         })
-        .catch((err) => console.error("Failed to fetch health records", err));
+        .catch((err) => {
+           console.error("Failed to fetch health records", err);
+           setChartData([]); // Reset biểu đồ nếu lỗi API
+        });
+    }
+    else {
+      setChartData([]); // Reset biểu đồ nếu chưa chọn đủ thông tin
+      return;
     }
   }, [selectedAthlete, selectedHealthMetric, fromDate, toDate]);
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-
       <div className="grid grid-cols-2 gap-4 mb-4">
-      <h2 className="text-2xl font-bold mb-4 text-center mr-auto">Analyst Page</h2>
-      {/** Add Athlete Button */}
-      <div>
-      <button
-            // onClick={onAddAthlete}
-          className="hover:cursor-pointer group py-2 px-4 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm ml-auto text-white border border-solid border-[#00a884] bg-[#00a884] rounded-lg transition-all duration-300 hover:bg-[#008c6a] hover:border-[#008c6a] w-auto"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 18 18"
-            fill="none"
+        <h2 className="text-2xl font-bold mb-4 text-center mr-auto">
+          Analyst Page
+        </h2>
+        {/** Add Health Record Button */}
+        <div>
+          <button
+            onClick={() => setIsHealthRecordModalOpen(true)}
+            className="group py-2 px-4 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm ml-auto text-white border 
+            border-solid border-[#00a884] bg-[#00a884] rounded-lg transition-all duration-300 hover:cursor-pointer hover:bg-[#008c6a] hover:border-[#008c6a] w-auto"
           >
-            <path
-              d="M9 4.5V13.5M13.5 9H4.5"
-              stroke="white"
-              strokeWidth="1.3"
-              strokeLinecap="round"
-            ></path>
-          </svg>
-          <span className="max-md:hidden">Add Health Record</span>
-      </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 18 18"
+              fill="none"
+            >
+              <path
+                d="M9 4.5V13.5M13.5 9H4.5"
+                stroke="white"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+              ></path>
+            </svg>
+            <span className="max-md:hidden">Add Health Record</span>
+          </button>
+          {isHealthRecordModalOpen && (
+        <AddHealthRecordModal
+          athletes={athletes}
+          metricGroups={metricGroups}
+          // healthMetrics={healthMetrics}
+          onResetFilters={resetFilters} // Reset các bộ lọc
+          onClose={() => setIsHealthRecordModalOpen(false)}
+          onSave={handleSaveRecord}
+          onSuccess={fetchHealthRecords}
+        />
+      )}
+        </div>
       </div>
-      </div>
+
+
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
           <div className="mb-4 relative">
@@ -183,6 +241,8 @@ const Analyst = () => {
             )}
           </div>
         </div>
+
+        {/** Metric Group */}
         <div>
           <label className="block font-semibold">
             Chọn nhóm chỉ số sức khỏe:
@@ -202,6 +262,7 @@ const Analyst = () => {
         </div>
       </div>
 
+      {/** Health Metric */}
       <div className="mb-4">
         <label className="block font-semibold">Chọn chỉ số sức khỏe:</label>
         <select
