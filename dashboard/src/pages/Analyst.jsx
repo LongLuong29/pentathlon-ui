@@ -63,15 +63,17 @@ const Analyst = () => {
     }
   };
 
+  // delete - later
   const handleSaveRecord = (data) => {
     console.log("Hồ sơ sức khỏe đã lưu:", data);
     // Gửi API hoặc xử lý logic tại đây
   };
 
   const resetFilters = () => {
-    setSelectedAthlete("");
+    setSearchAthlete("");
     setSelectedMetricGroup("");
     setSelectedHealthMetric("");
+    setChartData({ labels: [], datasets: [] });
   };
 
   useEffect(() => {
@@ -191,11 +193,10 @@ const Analyst = () => {
             <AddHealthRecordModal
               athletes={athletes}
               metricGroups={metricGroups}
-              // healthMetrics={healthMetrics}
-              onResetFilters={resetFilters} // Reset các bộ lọc
               onClose={() => setIsHealthRecordModalOpen(false)}
-              onSave={handleSaveRecord}
+              onSave={handleSaveRecord} // delete - later
               onSuccess={fetchHealthRecords}
+              onResetFilters={resetFilters} // Reset các bộ lọc
             />
           )}
         </div>
