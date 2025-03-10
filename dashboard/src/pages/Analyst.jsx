@@ -278,6 +278,7 @@ const Analyst = () => {
         </select>
       </div>
 
+      {/** Choose DAte */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block font-semibold">Từ ngày:</label>
@@ -299,6 +300,7 @@ const Analyst = () => {
         </div>
       </div>
 
+      {/** Chart */}
       <div className="mt-4">
         <h3 className="text-xl font-bold mb-2 text-center">Biểu đồ sức khỏe</h3>
         <Line

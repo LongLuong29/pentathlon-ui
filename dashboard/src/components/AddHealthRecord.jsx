@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { format } from "date-fns";
+
 
 const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSuccess, onResetFilters  }) => {
   const [selectedAthlete, setSelectedAthlete] = useState("");
@@ -40,11 +42,12 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
       alert("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
+    const formattedDate = format(new Date(recordDate), "yyyy-MM-dd HH:mm:ss");
     onSave({
         athleteId: selectedAthlete,
         metricId: selectedHealthMetric,
         value,
-        recordDate,
+        formattedDate,
       });
 
     try {
@@ -52,7 +55,7 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
         athlete_id: Number(selectedAthlete), // Ép kiểu về số nguyên (int)
         metric_id: Number(selectedHealthMetric), // Ép kiểu về số nguyên (int)
         metric_value: parseFloat(value), // Ép kiểu về số thực (float)
-        // recorded_at: recordDate,
+        recorded_at: formattedDate,
       });   
 
       alert("Lưu dữ liệu thành công!");
@@ -64,11 +67,10 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
       console.error("Lỗi khi lưu health record:", error);
       alert("Có lỗi xảy ra khi lưu dữ liệu.");
     }
-  };
-
+  };    
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-200 z-50">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-opacity-50 z-[1000]">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-semibold mb-4">Thêm Hồ Sơ Sức Khỏe</h2>
 
