@@ -1,16 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
-import Analyst from "./components/Analyst";
-import Calendar from "./components/Calendar";
-import Athlete from "./components/Athlete";
+import Dashboard from "./pages/Dashboard";
+import Analyst from "./pages/Analyst";
+import Calendar from "./pages/Calendar";
+import Athlete from "./pages/Athlete";
 
 function App() {
+  const [isSidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
+  console.log(isSidebarOpen);
+  console.log(setSidebarOpen);
+
   return (
     <Router>
       <div className=" flex overflow-y-hidden bg-white font-inter">
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         {/* Main Content */}
         <div className="body h-full overflow-hidden lg:ml-auto max-lg:w-full relative lg:w-[calc(100%-256px)] border-l border-solid border-gray-200">
@@ -28,9 +33,6 @@ function App() {
 
 export default App;
 
-
-// import { useState } from "react";
-// import { Menu, X } from "lucide-react";
 
 // const Dashboard = () => {
 //   const [isSidebarOpen, setSidebarOpen] = useState(false);
