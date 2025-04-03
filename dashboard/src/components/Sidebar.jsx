@@ -175,7 +175,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
               <div className="avatar ">
                 <img
                   className="w-12 h-12 rounded-full flex items-center justify-center"
-                  src="../../public/download.jpg"
+                  src="../../public/messi.jpg"
                   alt=""
                 />
               </div>

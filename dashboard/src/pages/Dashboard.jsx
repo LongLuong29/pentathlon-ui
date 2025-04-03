@@ -1,7 +1,7 @@
 const Dashboard = () => {
   return (
-    <div className="p-6 text-xl font-bold">
-      <h1>Dashboard Page</h1>
+    <div className="px-4 py-6 text-xl font-bold h-screen bg-gray-300 flex items-center justify-center">
+      <h1 className="text-4xl">Dashboard Page</h1>
     </div>
   );
 };

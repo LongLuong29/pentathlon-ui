@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {athleteList , updateAthleteList} from "../data/athleteList";
+import { athleteList, updateAthleteList } from "../data/athleteList";
 import Header from "../components/Header";
 import AthleteList from "../components/AthleteList";
 
@@ -47,15 +47,14 @@ const Athlete = () => {
 
   // Hàm xử lý lưu dữ liệu
   const handleSave = () => {
-    console.log(athleteData)
-    updateAthleteList(athleteData)
-  }
+    console.log(athleteData);
+    updateAthleteList(athleteData);
+  };
 
   // Lọc vận động viên theo tên
-const filteredAthletes = athletes.filter((athlete) =>
-  (athlete.fullName?.toLowerCase() ?? "").includes(searchTerm.toLowerCase())
-);
-
+  const filteredAthletes = athletes.filter((athlete) =>
+    (athlete.fullName?.toLowerCase() ?? "").includes(searchTerm.toLowerCase())
+  );
 
   const handleStatsClick = (athleteID) => {
     navigate("/analyst", { state: { athleteID } });
@@ -70,19 +69,16 @@ const filteredAthletes = athletes.filter((athlete) =>
       />
 
       {/* Athlete List Component */}
-      <AthleteList
-        athletes={athletes}
-        onStatsClick={handleStatsClick}
-      />
+      <AthleteList athletes={filteredAthletes} onStatsClick={handleStatsClick} />
 
       {/* Modal thêm vận động viên */}
       {showAddAthleteModal && (
         <div
-          className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-opacity-50 z-[1000]"
+          className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-opacity-50 z-[1000] "
           onClick={() => setShowAddAthleteModal(false)}
         >
           <div
-            className="p-4 rounded-xl w-[400px] max-h-screen  border border-b-black overflow-auto text-black bg-white shadow-lg"
+            className="p-4 rounded-xl w-[400px] max-h-[90vh] border border-b-black overflow-auto text-black bg-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="max-w-md mx-auto p-4 rounded-lg">
@@ -127,14 +123,15 @@ const filteredAthletes = athletes.filter((athlete) =>
                     <label className="block text-gray-700 text-sm font-medium">
                       Gender*
                     </label>
-                    <select 
-                    name="gender"
-                    value={athleteData.gender}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]">
-                      <option>Select Gender</option>
-                      <option>Male</option>
-                      <option>Female</option>
+                    <select
+                      name="gender"
+                      value={athleteData.gender}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </select>
                   </div>
 
@@ -161,31 +158,31 @@ const filteredAthletes = athletes.filter((athlete) =>
                   Contact Information
                 </h3>
                 <div className="mb-2">
-                    <label className="block text-gray-700 text-sm font-medium">
-                      Email*
-                    </label>
-                    <input
-                      type = "email"
-                      name= "email"
-                      className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-                      placeholder="Enter your email"
-                      value={athleteData.email}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <label className="block text-gray-700 text-sm font-medium">
-                      Phone*
-                    </label>
-                    <input
-                      type="text"
-                      name="phone"
-                      className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
-                      placeholder="Enter your phone"
-                      value={athleteData.phone}
-                      onChange={handleChange}
-                    />
-                  </div>
+                  <label className="block text-gray-700 text-sm font-medium">
+                    Email*
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                    placeholder="Enter your email"
+                    value={athleteData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="block text-gray-700 text-sm font-medium">
+                    Phone*
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    className="w-full border border-gray-300 rounded-lg p-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884]"
+                    placeholder="Enter your phone"
+                    value={athleteData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
 
                 <div className="mb-2">
                   <label className="block text-gray-700 text-sm font-medium">
@@ -203,13 +200,16 @@ const filteredAthletes = athletes.filter((athlete) =>
 
               {/*Save-Close Button */}
               <div className="grid grid-cols-2 gap-1">
-                <button 
-                 onClick={handleSave}
-                 className="bg-[#00a884] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#03634f] transition">
+                <button
+                  onClick={handleSave}
+                  className="bg-[#00a884] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#03634f] transition"
+                >
                   Save
                 </button>
-                <button onClick={() => setShowAddAthleteModal(false)}
-                 className="bg-gray-300 text-black py-2 rounded-lg text-sm font-medium hover:bg-gray-400 transition">
+                <button
+                  onClick={() => setShowAddAthleteModal(false)}
+                  className="bg-gray-300 text-black py-2 rounded-lg text-sm font-medium hover:bg-gray-400 transition"
+                >
                   Close
                 </button>
               </div>

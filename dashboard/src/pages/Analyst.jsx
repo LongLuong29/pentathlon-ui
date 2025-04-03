@@ -70,12 +70,14 @@ const Analyst = () => {
   };
 
   const resetFilters = () => {
+    // searchAthlete("");
     setSearchAthlete("");
     setSelectedMetricGroup("");
     setSelectedHealthMetric("");
     setChartData({ labels: [], datasets: [] });
   };
 
+  //fetch athletes and metric groups
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -100,6 +102,7 @@ const Analyst = () => {
     fetchData();
   }, []);
 
+  // fetch metric base on group
   useEffect(() => {
     setSelectedHealthMetric(""); // Reset chỉ số sức khỏe đã chọn
     if (selectedMetricGroup) {

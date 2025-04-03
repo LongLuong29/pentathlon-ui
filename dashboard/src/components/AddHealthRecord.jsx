@@ -70,7 +70,7 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
   };    
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-opacity-50 z-[1000]">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-opacity-50 z-[1000] max-h-90vh overflow-auto">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-semibold mb-4">Thêm Hồ Sơ Sức Khỏe</h2>
 
