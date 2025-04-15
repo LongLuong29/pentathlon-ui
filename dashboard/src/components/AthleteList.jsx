@@ -125,7 +125,7 @@ const AthleteList = ({ athletes, onStatsClick, extraColumns = [] }) => {
                         <td className="pxy-3.5 pl-4 py-3">
                           <div className="w-48 flex items-center gap-3">
                             <img
-                              src={athlete.avatar || "../../public/default_user_image.png"}
+                              src={athlete.avatar || "../../public/default-user-avatar.png"}
                               className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
                               alt={athlete.fullname}
                             />

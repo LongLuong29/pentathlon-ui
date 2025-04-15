@@ -1,18 +1,21 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const location = useLocation();
   const mobileSize = window.innerWidth <= 768;
-  const [isMobile, setIsMobile] = useState(mobileSize);
 
+  // Đóng sidebar khi click ra ngoài (chỉ áp dụng cho mobile)
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(mobileSize);
+    const handleClickOutside = (e) => {
+      const sidebar = document.getElementById("sidebar");
+      if (window.innerWidth < 1024 && sidebar && !sidebar.contains(e.target)) {
+        setIsSidebarOpen(false);
+      }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setIsSidebarOpen]);
 
   const menuItems = [
     {
@@ -107,7 +110,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
 
   return (
     <>
-      {isMobile && !isSidebarOpen && (
+      {/* {!isSidebarOpen && (
         <button
           className="fixed top-4 left-4 z-50 bg-gray-200 p-2 rounded-lg shadow-lg"
           onClick={() => setSidebarOpen(true)}
@@ -125,27 +128,23 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
             />
           </svg>
         </button>
-      )}
+      )} */}
       <aside 
-      className={`border-r border-solid border-gray-200 fixed inset-y-0 z-50 flex flex-col flex-shrink-0 
+      className={`border-r border-solid border-gray-200 
+      fixed inset-y-0 z-50 flex flex-col flex-shrink-0 
       w-64 max-h-screen overflow-auto transition-all transform
-      ${ isSidebarOpen ? "translate-x-0" : "-translate-x-64"} bg-white shadow-lg lg:z-[1000] max-sm:w-full lg:fixed lg:shadow-none`}>
+      ${!isSidebarOpen ? '-translate-x-full lg:translate-x-0 lg:w-20' : ''} bg-white shadow-lg lg:z-[1000] max-sm:w-full lg:fixed lg:shadow-none`}>
         {/* Sidebar header */}
         <div className="flex items-center justify-between flex-shrink-0 px-4">
-          <div className="border-b w-full border-solid border-gray-200 py-6 flex items-center justify-between relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className="size-6 max-lg:hidden lg:hidden"
-            >
-              <path d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" />
-            </svg>
-            Pentathlon Sport
-            <button className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100" onClick={() => setSidebarOpen(false)}>
+          <div className={`border-b w-full border-solid border-gray-200 py-6 flex items-center justify-between relative`}>
+            <span className={`${!isSidebarOpen ? 'lg:hidden': ''}`}>
+              Pentathlon Sport
+              </span>
+            <button className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                className="size-4"
+                className={`size-4 ${!isSidebarOpen ? 'rotate-180' : ''}`}
               >
                 <path d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" />
               </svg>
@@ -160,9 +159,9 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
           <ul className="p-2 overflow-hidden flex flex-col gap-1">
             {menuItems.map((item) => (
               <Link to={item.path} key={item.path}>
-                <li className="flex items-center gap-3 text-gray-500 text-sm font-medium py-2 px-3 rounded-lg transition-all duration-500 hover:bg-gray-200 active:bg-gray-50 hover:text-gray-900">
-                  <span>{item.svgPath}</span>
-                  <span>{item.name}</span>
+                <li className={`${!isSidebarOpen ? 'justify-center': ''} flex items-center gap-3 text-gray-500 text-sm font-medium py-2 px-3 rounded-lg transition-all duration-500 hover:bg-gray-200 active:bg-gray-50 hover:text-gray-900 `}>
+                  <span className>{item.svgPath}</span>
+                  <span className={`max-md:hidden ${!isSidebarOpen ? 'lg:hidden': ''}`}>{item.name}</span>
                 </li>
               </Link>
             ))}
@@ -172,21 +171,21 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
         <div className="flex-shrink-0">
           <div className="py-5 px-4 flex justify-between items-center border-t border-solid border-gray-200">
             <div className="user flex items-center gap-2.5">
-              <div className="avatar ">
+              <div className={`avatar ${!isSidebarOpen ? 'lg:mx-auto': ''}`}>
                 <img
                   className="w-12 h-12 rounded-full flex items-center justify-center"
                   src="../../public/messi.jpg"
                   alt=""
                 />
               </div>
-              <div className="name-email">
+              <div className={`name-email ${!isSidebarOpen ? 'lg:hidden': ''}`}>
                 <p className="font-semibold text-xs text-gray-900 mb-0.5">
                   Admin
                 </p>
                 <p className="font-medium text-xs text-gray-500">@admin</p>
               </div>
             </div>
-            <button className="rounded-full p-0.5 bg-white transition-all duration-500 hover:bg-gray-100">
+            <button className={` ${!isSidebarOpen ? 'lg:hidden': ''} rounded-full p-0.5 bg-white transition-all duration-500 hover:bg-gray-100`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

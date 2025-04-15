@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Header = ({ onSearch, onAddAthlete }) => {
+const Header = ({ onSearch, onAddAthlete, toggleSidebar, isSidebarOpen }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (e) => {
@@ -9,9 +9,30 @@ const Header = ({ onSearch, onAddAthlete }) => {
   };
 
   return (
-    <div className="flex items-center justify-between gap-1 sm:gap-6 py-3.5 px-4 border-b border-solid border-gray-200 fixed z-20 top-0 max-lg:left-0 bg-white lg:fixed right-0 lg:w-[calc(100%-270px)]">
+    <div className={`flex items-center justify-between gap-1 sm:gap-6 py-3.5 px-4 border-b border-solid border-gray-200 
+    fixed z-20 top-0 max-lg:left-0 bg-white lg:fixed right-0  ${isSidebarOpen ? 'lg:ml-64 lg:w-[calc(100%-256px)]' : 'lg:ml-20 lg:w-[calc(100%-80px)]'}`}>
       <div className="relative flex">
-        <div className="block max-lg:pl-6">
+        <button
+          onClick={toggleSidebar}
+          className={`w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 lg:hidden `}
+        >
+          {/* Nút toggle chỉ hiện trên mobile (<lg) */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 cursor-pointer"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+            />
+          </svg>
+        </button>
+        <div className="block max-lg:pl-6 pl-4">
           <h6 className="text-sm sm:text-lg font-semibold text-gray-900 whitespace-nowrap mb-0.5">
             Welcome back,
             <span className="text-indigo-600 text-base sm:text-lg font-semibold">
@@ -69,7 +90,7 @@ const Header = ({ onSearch, onAddAthlete }) => {
         </button>
         {/** Add Athlete Button */}
         <button
-            onClick={onAddAthlete}
+          onClick={onAddAthlete}
           className="hover:cursor-pointer group py-2 px-2 md:pr-5 md:pl-3.5 flex items-center whitespace-nowrap gap-1.5 font-medium text-sm text-white border border-solid border-indigo-600 bg-indigo-600 rounded-lg transition-all duration-300 hover:bg-indigo-800 hover:border-indigo-800"
         >
           <svg
