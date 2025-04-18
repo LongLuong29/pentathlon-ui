@@ -40,9 +40,11 @@ const PublicRoute = ({ children }) => {
 };
 
 // Layout Component
-const Layout = ({ children }) => {
+const Layout = ({ children, showAddAthleteModal, setShowAddAthleteModal }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <div className="flex overflow-y-hidden bg-white font-inter">
@@ -61,6 +63,7 @@ const Layout = ({ children }) => {
         <Header
           toggleSidebar={toggleSidebar}
           isSidebarOpen={isSidebarOpen}
+          onAddAthlete={() => setShowAddAthleteModal(true)}
         />
         {children}
       </div>
@@ -69,6 +72,8 @@ const Layout = ({ children }) => {
 };
 
 function App() {
+  const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
+
   return (
     <AuthProvider>
       <Router>
@@ -88,7 +93,7 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <Layout>
+                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
                   <Dashboard />
                 </Layout>
               </ProtectedRoute>
@@ -98,7 +103,7 @@ function App() {
             path="/analyst"
             element={
               <ProtectedRoute>
-                <Layout>
+                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
                   <Analyst />
                 </Layout>
               </ProtectedRoute>
@@ -108,7 +113,7 @@ function App() {
             path="/calendar"
             element={
               <ProtectedRoute>
-                <Layout>
+                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
                   <Calendar />
                 </Layout>
               </ProtectedRoute>
@@ -118,8 +123,11 @@ function App() {
             path="/athlete"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <Athlete />
+                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
+                  <Athlete 
+                    showAddAthleteModal={showAddAthleteModal}
+                    setShowAddAthleteModal={setShowAddAthleteModal}
+                  />
                 </Layout>
               </ProtectedRoute>
             }

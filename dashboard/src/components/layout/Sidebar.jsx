@@ -184,25 +184,26 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   return (
     <aside 
       id="sidebar"
-      className={`border-r border-solid border-gray-200 
+      className={`border-r border-solid border-gray-200/80 
       fixed inset-y-0 z-50 flex flex-col flex-shrink-0 
-      w-64 max-h-screen overflow-auto transition-all transform
-      ${!isSidebarOpen ? '-translate-x-full lg:translate-x-0 lg:w-20' : ''} bg-white shadow-lg lg:z-[1000] max-sm:w-full lg:fixed lg:shadow-none`}
+      w-64 max-h-screen overflow-auto transition-all transform duration-300 ease-in-out
+      ${!isSidebarOpen ? '-translate-x-full lg:translate-x-0 lg:w-20' : ''} 
+      bg-white/80 backdrop-blur-sm shadow-lg lg:z-[1000] max-sm:w-full lg:fixed lg:shadow-none`}
     >
       {/* Sidebar header */}
       <div className="flex items-center justify-between flex-shrink-0 px-4">
-        <div className={`border-b w-full border-solid border-gray-200 py-6 flex items-center justify-between relative`}>
-          <span className={`${!isSidebarOpen ? 'lg:hidden': ''}`}>
+        <div className={`border-b w-full border-solid border-gray-200/80 py-4 flex items-center justify-between relative`}>
+          <span className={`${!isSidebarOpen ? 'lg:hidden': ''} text-lg font-bold text-gray-800 transition-all duration-300`}>
             Pentathlon Sport
           </span>
           <button 
-            className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100" 
+            className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100/80 transition-all duration-200" 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
-              className={`size-4 ${!isSidebarOpen ? 'rotate-180' : ''}`}
+              className={`w-5 h-5 text-gray-500 transition-all duration-300 ${!isSidebarOpen ? 'rotate-180' : ''}`}
             >
               <path d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" />
             </svg>
@@ -211,8 +212,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       </div>
 
       {/* Sidebar menu */}
-      <nav className="flex-1 overflow-hidden overflow-y-auto pt-6 text-gray-400">
-        <h5 className="py-1.5 pl-3 text-xs font-medium text-gray-400 uppercase">
+      <nav className="flex-1 overflow-hidden hover:overflow-y-auto pt-6 text-gray-400 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+        <h5 className="py-1.5 pl-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
           MENU
         </h5>
         <ul className="p-2 overflow-hidden flex flex-col gap-1">
@@ -228,7 +229,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
       {/* Sidebar footer */}
       <div className="flex-shrink-0">
-        <div className="py-5 px-4 flex justify-between items-center border-t border-solid border-gray-200">
+        <div className="py-4 px-4 flex justify-between items-center border-t border-solid border-gray-200/80 bg-gray-50/50">
           <UserProfile 
             isSidebarOpen={isSidebarOpen}
             user={{
@@ -239,7 +240,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           />
           <button 
             onClick={handleSignOut}
-            className={`${!isSidebarOpen ? 'lg:hidden': ''} rounded-full p-2 bg-white transition-all duration-500 hover:bg-red-50 hover:text-red-600 text-gray-500`}
+            className={`${!isSidebarOpen ? 'lg:hidden': ''} rounded-lg p-2 bg-white transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-500`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
