@@ -1,9 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 
 const Header = ({ toggleSidebar, isSidebarOpen, onAddAthlete, onAddTraining }) => {
   const location = useLocation();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const searchContainerRef = useRef(null);
+
+  // Handle click outside search
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setShowSearch(false);
+      }
+    };
+
+    if (showSearch) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSearch]);
+
+  // Focus input when search is shown
+  useEffect(() => {
+    if (showSearch && searchContainerRef.current) {
+      const input = searchContainerRef.current.querySelector('input');
+      if (input) {
+        input.focus();
+      }
+    }
+  }, [showSearch]);
 
   // Hàm lấy tên trang dựa trên pathname
   const getPageTitle = (pathname) => {
@@ -67,17 +96,32 @@ const Header = ({ toggleSidebar, isSidebarOpen, onAddAthlete, onAddTraining }) =
         {/* Right Section - Desktop */}
         <div className="hidden sm:flex items-center gap-3">
           {/* Global Search */}
-          <div className="relative max-w-md">
-            <input
-              type="text"
-              placeholder="Tìm kiếm..."
-              className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
+          <div className="relative flex items-center" ref={searchContainerRef}>
+            {showSearch ? (
+              <div className="flex items-center">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm..."
+                    className="w-64 pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowSearch(true)}
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            )}
           </div>
 
           {/* Notification Bell */}

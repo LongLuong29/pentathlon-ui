@@ -7,19 +7,45 @@ import { useAuth } from "../../context/AuthContext";
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const location = useLocation();
   const { logout } = useAuth();
-  const mobileSize = window.innerWidth <= 768;
 
   // Đóng sidebar khi click ra ngoài (chỉ áp dụng cho mobile)
   useEffect(() => {
     const handleClickOutside = (e) => {
       const sidebar = document.getElementById("sidebar");
-      if (window.innerWidth < 1024 && sidebar && !sidebar.contains(e.target)) {
+      const toggleButton = document.getElementById("sidebar-toggle");
+      if (
+        window.innerWidth < 1024 &&
+        sidebar &&
+        !sidebar.contains(e.target) &&
+        toggleButton &&
+        !toggleButton.contains(e.target)
+      ) {
         setIsSidebarOpen(false);
       }
     };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        document.body.style.overflow = '';
+      } else if (isSidebarOpen) {
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [setIsSidebarOpen]);
+    window.addEventListener('resize', handleResize);
+
+    // Set initial overflow
+    if (window.innerWidth < 1024 && isSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('resize', handleResize);
+      document.body.style.overflow = '';
+    };
+  }, [setIsSidebarOpen, isSidebarOpen]);
 
   const handleSignOut = () => {
     logout();
@@ -175,101 +201,128 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   ];
 
   return (
-    <aside
-      id="sidebar"
-      className={`border-r border-solid border-gray-200/80 
-      fixed inset-y-0 z-50 flex flex-col flex-shrink-0 
-      w-64 max-h-screen overflow-auto transition-all transform duration-300 ease-in-out
-      ${!isSidebarOpen ? "-translate-x-full lg:translate-x-0 lg:w-20" : ""} 
-      bg-white/80 backdrop-blur-sm shadow-lg lg:z-[1000] max-sm:w-full lg:fixed lg:shadow-none`}
-    >
-      {/* Sidebar header */}
-      <div className="flex items-center justify-between flex-shrink-0 px-4">
+    <>
+      {/* Backdrop for mobile */}
+      {isSidebarOpen && (
         <div
-          className={`border-b w-full border-solid border-gray-200/80 py-4 flex items-center justify-between relative`}
-        >
-          <span
-            className={`${
-              !isSidebarOpen ? "lg:hidden" : ""
-            } text-lg font-bold text-gray-800 transition-all duration-300`}
-          >
-            Pentathlon Sport
-          </span>
-          <button
-            className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100/80 transition-all duration-200"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className={`w-5 h-5 text-gray-500 transition-all duration-300 ${
-                !isSidebarOpen ? "rotate-180" : ""
-              }`}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5 8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
-      {/* Sidebar menu */}
-      <nav className="flex-1 overflow-hidden hover:overflow-y-auto pt-6 text-gray-400 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-        <h5 className="py-1.5 pl-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
-          MENU
-        </h5>
-        <ul className="p-2 overflow-hidden flex flex-col gap-1">
-          {menuItems.map((item) => (
-            <MenuItem
-              key={item.path}
-              item={item}
+      {/* Sidebar */}
+      <aside
+        id="sidebar"
+        className={`
+          fixed inset-y-0 left-0 z-50 
+          flex flex-col flex-shrink-0 
+          w-64 max-h-screen overflow-hidden
+          transition-all transform duration-300 ease-in-out
+          bg-white border-r border-gray-200/80
+          ${!isSidebarOpen ? "-translate-x-full lg:translate-x-0 lg:w-20" : "translate-x-0"} 
+          lg:z-[1000] max-sm:w-[280px]
+        `}
+      >
+        {/* Sidebar header */}
+        <div className="flex-shrink-0 px-4">
+          <div className="border-b w-full border-gray-200/80 py-4 flex items-center justify-between">
+            <span
+              className={`
+                ${!isSidebarOpen ? "lg:hidden" : ""} 
+                text-lg font-bold text-gray-800 
+                transition-all duration-300
+                whitespace-nowrap overflow-hidden
+              `}
+            >
+              Pentathlon Sport
+            </span>
+            <button
+              id="sidebar-toggle"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100/80 transition-all duration-200"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className={`w-5 h-5 text-gray-500 transition-all duration-300 ${
+                  !isSidebarOpen ? "rotate-180" : ""
+                }`}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Sidebar menu */}
+        <nav className="flex-1 overflow-hidden hover:overflow-y-auto pt-4">
+          <h5 
+            className={`
+              py-1.5 pl-4 text-xs font-medium text-gray-400 
+              uppercase tracking-wider
+              ${!isSidebarOpen ? "lg:hidden" : ""}
+            `}
+          >
+            MENU
+          </h5>
+          <ul className="p-2 overflow-hidden flex flex-col gap-1">
+            {menuItems.map((item) => (
+              <MenuItem
+                key={item.path}
+                item={item}
+                isSidebarOpen={isSidebarOpen}
+              />
+            ))}
+          </ul>
+        </nav>
+
+        {/* Sidebar footer */}
+        <div className="flex-shrink-0">
+          <div className="py-4 px-4 flex justify-between items-center border-t border-gray-200/80 bg-gray-50/50">
+            <UserProfile
               isSidebarOpen={isSidebarOpen}
+              user={{
+                name: "Admin",
+                username: "@admin",
+                avatar: "../../../public/messi.jpg",
+              }}
             />
-          ))}
-        </ul>
-      </nav>
-
-      {/* Sidebar footer */}
-      <div className="flex-shrink-0">
-        <div className="py-4 px-4 flex justify-between items-center border-t border-solid border-gray-200/80 bg-gray-50/50">
-          <UserProfile
-            isSidebarOpen={isSidebarOpen}
-            user={{
-              name: "Admin",
-              username: "@admin",
-              avatar: "../../../public/messi.jpg",
-            }}
-          />
-          <button
-            onClick={handleSignOut}
-            className={`${
-              !isSidebarOpen ? "lg:hidden" : ""
-            } rounded-lg p-2 bg-white transition-all duration-200 hover:bg-red-50 hover:text-red-600 text-gray-500`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-5 h-5"
+            <button
+              onClick={handleSignOut}
+              className={`
+                ${!isSidebarOpen ? "lg:hidden" : ""} 
+                rounded-lg p-2 bg-white 
+                transition-all duration-200 
+                hover:bg-red-50 hover:text-red-600 
+                text-gray-500
+              `}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 
