@@ -1,7 +1,12 @@
+import React from 'react';
+import TrainingSchedule from '../components/TrainingSchedule';
+
 const Calendar = () => {
   return (
-    <div className="px-4 py-6 text-xl font-bold h-screen bg-gray-300 flex items-center justify-center">
-      <h1 className="text-4xl">Calendar Page</h1>
+    <div className="pt-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        <TrainingSchedule />
+      </div>
     </div>
   );
 };

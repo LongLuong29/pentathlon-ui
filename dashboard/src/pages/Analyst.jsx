@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Chart,
   CategoryScale,
@@ -14,6 +13,8 @@ import {
 import { Line } from "react-chartjs-2";
 import { formatDate } from "../utils/index";
 import AddHealthRecordModal from "../components/AddHealthRecord";
+import { athletesService, healthMetricsService, healthRecordsService } from "../api";
+import { toast } from "react-toastify";
 
 // Đăng ký các thành phần cần thiết
 Chart.register(
@@ -36,6 +37,8 @@ const Analyst = () => {
   const [selectedHealthMetric, setSelectedHealthMetric] = useState("");
   const [healthRecords, setHealthRecords] = useState([]);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [searchAthlete, setSearchAthlete] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -53,24 +56,39 @@ const Analyst = () => {
   // Hàm load lại dữ liệu health records
   const fetchHealthRecords = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/health-records"
-      );
-      console.log("fetched");
-      setHealthRecords(response.data);
+      setLoading(true);
+      const data = await healthRecordsService.getAll();
+      setHealthRecords(data);
+      setError(null);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu health records:", error);
+      setError("Failed to fetch health records");
+      toast.error("Failed to fetch health records");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // delete - later
-  const handleSaveRecord = (data) => {
-    console.log("Hồ sơ sức khỏe đã lưu:", data);
-    // Gửi API hoặc xử lý logic tại đây
+  const handleSaveRecord = async (data) => {
+    try {
+      setLoading(true);
+      await healthRecordsService.create(data);
+      toast.success("Health record added successfully!");
+      // Refresh dữ liệu sau khi thêm
+      await fetchHealthRecords();
+      // Nếu đang ở cùng athlete và metric, refresh chart data
+      if (selectedAthlete === data.athlete_id && selectedHealthMetric === data.metric_id) {
+        await fetchFilteredHealthRecords();
+      }
+    } catch (error) {
+      console.error("Error saving health record:", error);
+      toast.error("Failed to save health record");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetFilters = () => {
-    // searchAthlete("");
     setSearchAthlete("");
     setSelectedMetricGroup("");
     setSelectedHealthMetric("");
@@ -80,23 +98,26 @@ const Analyst = () => {
   //fetch athletes and metric groups
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const athleteRes = await axios.get(
-          "http://localhost:5000/api/athletes"
-        );
-        if (Array.isArray(athleteRes.data) && athleteRes.data.length > 0) {
-          setAthletes(athleteRes.data);
-          setSelectedAthlete(athleteRes.data[0].id);
-        } else {
-          setAthletes([]);
+        // Fetch athletes
+        const athleteData = await athletesService.getAll();
+        setAthletes(athleteData);
+        if (athleteData.length > 0) {
+          setSelectedAthlete(athleteData[0].id);
         }
 
-        const metricGroupRes = await axios.get(
-          "http://localhost:5000/api/metric-groups"
-        );
-        setMetricGroups(metricGroupRes.data);
+        // Fetch metric groups
+        const metricGroupData = await healthMetricsService.getAllGroups();
+        setMetricGroups(metricGroupData);
+        
+        setError(null);
       } catch (err) {
         console.error("Failed to fetch data", err);
+        setError("Failed to fetch data");
+        toast.error("Failed to fetch initial data");
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -104,67 +125,74 @@ const Analyst = () => {
 
   // fetch metric base on group
   useEffect(() => {
-    setSelectedHealthMetric(""); // Reset chỉ số sức khỏe đã chọn
-    if (selectedMetricGroup) {
-      axios
-        .get(
-          `http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`
-        )
-        .then((res) => {
-          const metrics = Array.isArray(res.data) ? res.data : [];
+    const fetchMetricsByGroup = async () => {
+      setSelectedHealthMetric(""); // Reset chỉ số sức khỏe đã chọn
+      
+      if (selectedMetricGroup) {
+        setLoading(true);
+        try {
+          const metrics = await healthMetricsService.getByGroup(selectedMetricGroup);
           setHealthMetrics(metrics);
-          if (metrics.length === 0) {
-            setSelectedHealthMetric(""); // Reset nếu không có dữ liệu
-          }
-        })
-        .catch(() => {
-          console.log("error");
+          setError(null);
+        } catch (err) {
+          console.error("Failed to fetch health metrics", err);
           setHealthMetrics([]);
-          setSelectedHealthMetric("");
-        });
-    } else {
-      setHealthMetrics([]);
-      setSelectedHealthMetric(""); // Reset khi nhóm chỉ số rỗng
-    }
+          setError("Failed to fetch health metrics");
+          toast.error("Failed to fetch health metrics");
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setHealthMetrics([]);
+      }
+    };
+    
+    fetchMetricsByGroup();
   }, [selectedMetricGroup]);
 
-  useEffect(() => {
+  const fetchFilteredHealthRecords = async () => {
     if (selectedAthlete && selectedHealthMetric) {
-      axios
-        .get(
-          `http://localhost:5000/api/health-records/filter/${selectedAthlete}/${selectedHealthMetric}/${fromDate}/${toDate}`
-        )
-        .then((res) => {
-          if (!Array.isArray(res.data)) {
-            console.error("Invalid data format from API:", res.data);
-            return;
-          }
-
-          setHealthRecords(res.data);
-          setChartData({
-            labels: res.data.map((record) => formatDate(record.recorded_at)),
-            datasets: [
-              {
-                label: "Health Metric Data",
-                data: res.data.map((record) => record.metric_value),
-                borderColor: "blue",
-                fill: false,
-              },
-            ],
-          });
-        })
-        .catch((err) => {
-          console.error("Failed to fetch health records", err);
-          setChartData([]); // Reset biểu đồ nếu lỗi API
+      setLoading(true);
+      try {
+        const filteredRecords = await healthRecordsService.filter(
+          selectedAthlete, 
+          selectedHealthMetric, 
+          fromDate, 
+          toDate
+        );
+        
+        setHealthRecords(filteredRecords);
+        
+        setChartData({
+          labels: filteredRecords.map((record) => formatDate(record.recorded_at)),
+          datasets: [
+            {
+              label: "Health Metric Data",
+              data: filteredRecords.map((record) => record.metric_value),
+              borderColor: "blue",
+              fill: false,
+            },
+          ],
         });
-    } else {
-      setChartData([]); // Reset biểu đồ nếu chưa chọn đủ thông tin
-      return;
+        
+        setError(null);
+      } catch (err) {
+        console.error("Failed to fetch health records", err);
+        setError("Failed to fetch health records");
+        toast.error("Failed to fetch health records");
+        setChartData({ labels: [], datasets: [] });
+      } finally {
+        setLoading(false);
+      }
     }
+  };
+
+  useEffect(() => {
+    fetchFilteredHealthRecords();
   }, [selectedAthlete, selectedHealthMetric, fromDate, toDate]);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
+    <div className="pt-24 px-6 pb-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
       <div className="grid grid-cols-2 gap-4 mb-4">
         <h2 className="text-2xl font-bold mb-4 text-center mr-auto">
           Analyst Page
@@ -197,13 +225,26 @@ const Analyst = () => {
               athletes={athletes}
               metricGroups={metricGroups}
               onClose={() => setIsHealthRecordModalOpen(false)}
-              onSave={handleSaveRecord} // delete - later
+              onSave={handleSaveRecord}
               onSuccess={fetchHealthRecords}
-              onResetFilters={resetFilters} // Reset các bộ lọc
+              onResetFilters={resetFilters}
             />
           )}
         </div>
       </div>
+
+      {loading && athletes.length === 0 && (
+        <div className="flex items-center justify-center p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      )}
+
+      {error && athletes.length === 0 && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+          <strong className="font-bold">Error! </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
@@ -282,7 +323,7 @@ const Analyst = () => {
         </select>
       </div>
 
-      {/** Choose DAte */}
+      {/** Choose Date */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block font-semibold">Từ ngày:</label>
@@ -307,20 +348,27 @@ const Analyst = () => {
       {/** Chart */}
       <div className="mt-4">
         <h3 className="text-xl font-bold mb-2 text-center">Biểu đồ sức khỏe</h3>
-        <Line
-          className="bg-gray-100 p-4 rounded shadow"
-          data={chartData}
-          options={{
-            scales: {
-              x: {
-                type: "category", // Đảm bảo thang đo x-axis sử dụng loại 'category'
+        {loading && (
+          <div className="flex items-center justify-center p-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        )}
+        {!loading && (
+          <Line
+            className="bg-gray-100 p-4 rounded shadow"
+            data={chartData}
+            options={{
+              scales: {
+                x: {
+                  type: "category", // Đảm bảo thang đo x-axis sử dụng loại 'category'
+                },
+                y: {
+                  beginAtZero: true,
+                },
               },
-              y: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
+            }}
+          />
+        )}
       </div>
     </div>
   );

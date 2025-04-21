@@ -120,7 +120,7 @@ function App() {
             }
           />
           <Route
-            path="/athlete"
+            path="/athletes"
             element={
               <ProtectedRoute>
                 <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>

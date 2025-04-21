@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from '../utils/index';
 
-const AthleteList = ({ athletes, searchTerm, onSearchChange }) => {
+const AthleteList = ({ athletes = [], searchTerm, onSearchChange }) => {
   const [openRowId, setOpenRowId] = useState(null);
   const [viewMode, setViewMode] = useState('table');
   const [selectedAthletes, setSelectedAthletes] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const navigate = useNavigate();
+
+  // Đảm bảo athletes luôn là một mảng
+  const safeAthletes = Array.isArray(athletes) ? athletes : [];
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +52,7 @@ const AthleteList = ({ athletes, searchTerm, onSearchChange }) => {
 
   const toggleSelectAll = () => {
     setSelectedAthletes(
-      selectedAthletes.length === athletes.length ? [] : athletes.map(a => a.id)
+      selectedAthletes.length === safeAthletes.length ? [] : safeAthletes.map(a => a.id)
     );
   };
 
@@ -59,14 +62,14 @@ const AthleteList = ({ athletes, searchTerm, onSearchChange }) => {
     }
   };
 
-  const filteredAthletes = athletes.filter(athlete => 
-    athlete.fullname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    athlete.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    athlete.phone.includes(searchTerm)
+  const filteredAthletes = safeAthletes.filter(athlete => 
+    athlete.fullname?.toLowerCase().includes(searchTerm?.toLowerCase() || '') ||
+    athlete.email?.toLowerCase().includes(searchTerm?.toLowerCase() || '') ||
+    athlete.phone?.includes(searchTerm || '')
   );
 
   return (
-    <div className="w-full px-4 py-6 pt-28 h-[calc(100vh-0px)] overflow-y-auto">
+    <div className="w-full px-2 py-6 h-[calc(100vh-0px)] overflow-y-auto">
       <div className="max-w-[2000px] mx-auto">
         <div className="rounded-xl border border-solid border-gray-200 overflow-hidden bg-white shadow-sm">
           {/* Header Controls */}
@@ -142,7 +145,7 @@ const AthleteList = ({ athletes, searchTerm, onSearchChange }) => {
                       <div className="flex items-center py-3.5 pl-4">
                         <input
                           type="checkbox"
-                          checked={selectedAthletes.length === athletes.length}
+                          checked={selectedAthletes.length === safeAthletes.length}
                           onChange={toggleSelectAll}
                           className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
