@@ -8,6 +8,8 @@ import Analyst from "./pages/Analyst";
 import Calendar from "./pages/Calendar";
 import Athlete from "./pages/Athlete";
 import Login from "./pages/Login";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -67,6 +69,7 @@ const Layout = ({ children, showAddAthleteModal, setShowAddAthleteModal }) => {
         />
         {children}
       </div>
+      <ToastContainer />
     </div>
   );
 };
