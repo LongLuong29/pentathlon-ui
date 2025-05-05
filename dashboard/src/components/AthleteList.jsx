@@ -1,17 +1,38 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { formatDate } from '../utils/index';
+import { athletesService } from '../api';
+import { handleError } from '../utils/errorHandler';
+import Loading from './common/Loading';
 
-const AthleteList = ({ athletes = [], searchTerm, onSearchChange }) => {
+const AthleteList = ({ searchTerm, onSearchChange }) => {
   const [openRowId, setOpenRowId] = useState(null);
   const [viewMode, setViewMode] = useState('table');
   const [selectedAthletes, setSelectedAthletes] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  const [athletes, setAthletes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Đảm bảo athletes luôn là một mảng
-  const safeAthletes = Array.isArray(athletes) ? athletes : [];
+  useEffect(() => {
+    const fetchAthletes = async () => {
+      try {
+        setLoading(true);
+        const data = await athletesService.getAll();
+        setAthletes(data);
+        setError(null);
+      } catch (err) {
+        const errorData = handleError(err, 'AthleteList');
+        setError(errorData.message);
+        setAthletes([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAthletes();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,7 +73,7 @@ const AthleteList = ({ athletes = [], searchTerm, onSearchChange }) => {
 
   const toggleSelectAll = () => {
     setSelectedAthletes(
-      selectedAthletes.length === safeAthletes.length ? [] : safeAthletes.map(a => a.id)
+      selectedAthletes.length === athletes.length ? [] : athletes.map(a => a.id)
     );
   };
 
@@ -62,11 +83,37 @@ const AthleteList = ({ athletes = [], searchTerm, onSearchChange }) => {
     }
   };
 
-  const filteredAthletes = safeAthletes.filter(athlete => 
+  const filteredAthletes = athletes.filter(athlete => 
     athlete.fullname?.toLowerCase().includes(searchTerm?.toLowerCase() || '') ||
     athlete.email?.toLowerCase().includes(searchTerm?.toLowerCase() || '') ||
     athlete.phone?.includes(searchTerm || '')
   );
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center p-4">
+        <p className="text-red-600">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  if (athletes.length === 0) {
+    return (
+      <div className="text-center p-4">
+        <p className="text-gray-600">No athletes found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full px-2 py-6 h-[calc(100vh-0px)] overflow-y-auto">
@@ -145,7 +192,7 @@ const AthleteList = ({ athletes = [], searchTerm, onSearchChange }) => {
                       <div className="flex items-center py-3.5 pl-4">
                         <input
                           type="checkbox"
-                          checked={selectedAthletes.length === safeAthletes.length}
+                          checked={selectedAthletes.length === athletes.length}
                           onChange={toggleSelectAll}
                           className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />

@@ -8,6 +8,7 @@ import Analyst from "./pages/Analyst";
 import Calendar from "./pages/Calendar";
 import Athlete from "./pages/Athlete";
 import Login from "./pages/Login";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -78,69 +79,82 @@ function App() {
   const [showAddAthleteModal, setShowAddAthleteModal] = useState(false);
 
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route 
-            path="/login" 
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            } 
+    <ErrorBoundary>
+      <AuthProvider>
+        <Router>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
           />
+          <Routes>
+            {/* Public Routes */}
+            <Route 
+              path="/login" 
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              } 
+            />
 
-          {/* Protected Routes */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
-                  <Dashboard />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/analyst"
-            element={
-              <ProtectedRoute>
-                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
-                  <Analyst />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/calendar"
-            element={
-              <ProtectedRoute>
-                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
-                  <Calendar />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/athletes"
-            element={
-              <ProtectedRoute>
-                <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
-                  <Athlete 
-                    showAddAthleteModal={showAddAthleteModal}
-                    setShowAddAthleteModal={setShowAddAthleteModal}
-                  />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Routes */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analyst"
+              element={
+                <ProtectedRoute>
+                  <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
+                    <Analyst />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <ProtectedRoute>
+                  <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
+                    <Calendar />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/athletes"
+              element={
+                <ProtectedRoute>
+                  <Layout showAddAthleteModal={showAddAthleteModal} setShowAddAthleteModal={setShowAddAthleteModal}>
+                    <Athlete 
+                      showAddAthleteModal={showAddAthleteModal}
+                      setShowAddAthleteModal={setShowAddAthleteModal}
+                    />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Catch all route - redirect to dashboard */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            {/* Catch all route - redirect to dashboard */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

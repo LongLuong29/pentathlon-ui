@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { handleApiError } from '../utils/errorHandler';
 
 // Lấy API URL từ biến môi trường
 const API_URL = import.meta.env.VITE_API_URL;
@@ -31,7 +32,7 @@ api.interceptors.response.use(
   async (error) => {
     // Handle network errors
     if (!error.response) {
-      return Promise.reject(new Error('Network error. Please check your connection.'));
+      return Promise.reject(handleApiError(error));
     }
 
     // Don't handle 401 for login endpoint
@@ -40,16 +41,13 @@ api.interceptors.response.use(
     // Handle unauthorized errors (except for login requests)
     if (error.response.status === 401 && !isLoginRequest) {
       localStorage.removeItem('token');
-      // Instead of redirecting, let the components handle the navigation
-      const error401 = new Error('Unauthorized - Please login again');
-      error401.status = 401;
-      return Promise.reject(error401);
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+      return Promise.reject(handleApiError(error));
     }
 
-    // Return the error message from the server if available
-    const message = error.response?.data?.message || 'An error occurred';
-    error.message = message;
-    return Promise.reject(error);
+    // Handle other errors
+    return Promise.reject(handleApiError(error));
   }
 );
 
