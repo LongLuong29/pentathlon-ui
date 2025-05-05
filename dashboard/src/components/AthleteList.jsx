@@ -271,14 +271,14 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
                       </td>
                       <td className="py-3.5 pl-4">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          athlete.status === 'Active' 
+                          athlete.active === 1
                             ? 'bg-green-100 text-green-800'
                             : 'bg-gray-100 text-gray-800'
                         }`}>
                           <span className={`w-1.5 h-1.5 mr-1.5 rounded-full ${
-                            athlete.status === 'Active' ? 'bg-green-400' : 'bg-gray-400'
+                            athlete.active === 1 ? 'bg-green-400' : 'bg-gray-400'
                           }`}></span>
-                          {athlete.status}
+                          {athlete.active === 1 ? 'Active' : 'Inactive'}
                         </span>
                       </td>
                       <td className="py-3.5 pl-4">
@@ -374,14 +374,14 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
                     
                     <div className="mt-4 flex items-center justify-between">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        athlete.status === 'Active' 
+                        athlete.active === 1 
                           ? 'bg-green-100 text-green-800'
                           : 'bg-gray-100 text-gray-800'
                       }`}>
                         <span className={`w-1.5 h-1.5 mr-1.5 rounded-full ${
-                          athlete.status === 'Active' ? 'bg-green-400' : 'bg-gray-400'
+                          athlete.active === 1 ? 'bg-green-400' : 'bg-gray-400'
                         }`}></span>
-                        {athlete.status}
+                        {athlete.active === 1 ? 'Active' : 'Inactive'}
                       </span>
                       <button
                         onClick={() => handleStatsClick(athlete.id)}
