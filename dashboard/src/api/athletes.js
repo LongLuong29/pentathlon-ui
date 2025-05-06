@@ -6,11 +6,25 @@ import api from './axios';
 export const athletesService = {
   /**
    * Lấy danh sách tất cả vận động viên
-   * @returns {Promise} Danh sách vận động viên
+   * @param {number} page - Trang hiện tại
+   * @param {number} limit - Số lượng item trên mỗi trang
+   * @returns {Promise} Danh sách vận động viên và thông tin phân trang
    */
-  getAll: async () => {
-    const response = await api.get('/athletes');
-    return Array.isArray(response.data) ? response.data : [];
+  getAll: async (page = 1, limit = 5) => {
+    const response = await api.get('/athletes', {
+      params: {
+        page,
+        limit
+      }
+    });
+    return {
+      athletes: Array.isArray(response.data.data) ? response.data.data : [],
+      pagination: {
+        total: response.data.total || 0,
+        page: response.data.page || 1,
+        limit: response.data.limit || 5
+      }
+    };
   },
   
   /**
