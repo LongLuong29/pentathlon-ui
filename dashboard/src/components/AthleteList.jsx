@@ -20,23 +20,23 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchAthletes = async () => {
-      try {
-        setLoading(true);
-        const response = await athletesService.getAll(pagination.page, pagination.limit);
-        setAthletes(response.athletes);
-        setPagination(response.pagination);
-        setError(null);
-      } catch (err) {
-        const errorData = handleError(err, 'AthleteList');
-        setError(errorData.message);
-        setAthletes([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchAthletes = async () => {
+    try {
+      setLoading(true);
+      const response = await athletesService.getAll(pagination.page, pagination.limit);
+      setAthletes(response.athletes);
+      setPagination(response.pagination);
+      setError(null);
+    } catch (err) {
+      const errorData = handleError(err, 'AthleteList');
+      setError(errorData.message);
+      setAthletes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchAthletes();
   }, [pagination.page, pagination.limit]);
 
@@ -103,6 +103,16 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
     athlete.email?.toLowerCase().includes(searchTerm?.toLowerCase() || '') ||
     athlete.phone?.includes(searchTerm || '')
   );
+
+  // Pass this function to AddAthleteForm
+  const handleAthleteAdded = () => {
+    // Reset to first page and refresh
+    setPagination(prev => ({
+      ...prev,
+      page: 1
+    }));
+    fetchAthletes();
+  };
 
   if (loading) {
     return <Loading />;
@@ -455,7 +465,7 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
                       onClick={() => handlePageChange(index + 1)}
                       className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold transition-all duration-200 ease-in-out cursor-pointer ${
                         pagination.page === index + 1
-                          ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 hover:bg-indigo-700'
+                          ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600 hover:bg-indigo-700'
                           : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:ring-gray-400 hover:text-gray-700 focus:z-20 focus:outline-offset-0'
                       }`}
                     >

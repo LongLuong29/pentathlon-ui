@@ -1,13 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { sportsService, ageGroupsService, athletesService } from '../api';
+import { toast } from 'react-toastify';
 
-const AddAthleteForm = ({ onClose, onSubmit }) => {
+const AddAthleteForm = ({ onClose, onSubmit, onSuccess }) => {
   const [step, setStep] = useState(1);
   const [previewImage, setPreviewImage] = useState(null);
-  
-  const sports = ["Swimming", "Running", "Shooting", "Fencing", "Obstacle Course", "Triathlon"];
-  const ageGroups = ["Under 12", "Under 15", "Under 18", "Adult"];
+  const [sports, setSports] = useState([]);
+  const [ageGroups, setAgeGroups] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [sportsData, ageGroupsData] = await Promise.all([
+          sportsService.getAll(),
+          ageGroupsService.getAll()
+        ]);
+        
+        setSports(sportsData);
+        setAgeGroups(ageGroupsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Failed to load form data. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -20,6 +44,7 @@ const AddAthleteForm = ({ onClose, onSubmit }) => {
       address: '',
       sports: [],
       ageGroups: [],
+      password: 'Password123@' // Default password
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -36,12 +61,30 @@ const AddAthleteForm = ({ onClose, onSubmit }) => {
       gender: Yup.string().required('Gender is required'),
       dateOfBirth: Yup.date().required('Date of birth is required'),
       address: Yup.string().required('Address is required'),
-      sports: Yup.array().min(1, 'Select at least one sport'),
-      ageGroups: Yup.array().min(1, 'Select at least one age group'),
+      sports: Yup.array(),
+      ageGroups: Yup.array(),
     }),
-    onSubmit: (values) => {
-      onSubmit(values);
-      onClose();
+    onSubmit: async (values) => {
+      try {
+        setIsSubmitting(true);
+        
+        console.log('Form values before submission:', values);
+        console.log('Selected sports:', values.sports);
+        console.log('Selected age groups:', values.ageGroups);
+        
+        const response = await athletesService.create(values);
+        
+        toast.success('Athlete added successfully!');
+        if (onSuccess) {
+          onSuccess(); // Refresh AthleteList
+        }
+        onClose();
+      } catch (error) {
+        console.error('Error creating athlete:', error);
+        toast.error(error.message || 'Failed to create athlete. Please try again.');
+      } finally {
+        setIsSubmitting(false);
+      }
     },
   });
 
@@ -294,68 +337,78 @@ const AddAthleteForm = ({ onClose, onSubmit }) => {
             {/* Sports */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Sports *
+                Sports
               </label>
-              <div className="grid grid-cols-2 gap-3">
-                {sports.map((sport) => (
-                  <label key={sport} className="relative flex items-center p-3 border rounded-md hover:bg-gray-50 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="sports"
-                      value={sport}
-                      checked={formik.values.sports.includes(sport)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          formik.setFieldValue('sports', [...formik.values.sports, sport]);
-                        } else {
-                          formik.setFieldValue(
-                            'sports',
-                            formik.values.sports.filter((s) => s !== sport)
-                          );
-                        }
-                      }}
-                      className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                    />
-                    <span className="ml-3 text-sm text-gray-700">{sport}</span>
-                  </label>
-                ))}
-              </div>
-              {formik.touched.sports && formik.errors.sports && (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.sports}</p>
+              {isLoading ? (
+                <div className="flex items-center justify-center p-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-500"></div>
+                </div>
+              ) : sports.length > 0 ? (
+                <div className="grid grid-cols-2 gap-3">
+                  {sports.map((sport) => (
+                    <label key={sport.id || sport} className="relative flex items-center p-3 border rounded-md hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="sports"
+                        value={sport.id || sport}
+                        checked={formik.values.sports.includes(sport.id || sport)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            formik.setFieldValue('sports', [...formik.values.sports, sport.id || sport]);
+                          } else {
+                            formik.setFieldValue(
+                              'sports',
+                              formik.values.sports.filter((s) => s !== (sport.id || sport))
+                            );
+                          }
+                        }}
+                        className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                      <span className="ml-3 text-sm text-gray-700">{sport.name || sport}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 text-center p-4">No sports available</p>
               )}
             </div>
 
             {/* Age Groups */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Age Groups *
+                Age Groups
               </label>
-              <div className="grid grid-cols-2 gap-3">
-                {ageGroups.map((age) => (
-                  <label key={age} className="relative flex items-center p-3 border rounded-md hover:bg-gray-50 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="ageGroups"
-                      value={age}
-                      checked={formik.values.ageGroups.includes(age)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          formik.setFieldValue('ageGroups', [...formik.values.ageGroups, age]);
-                        } else {
-                          formik.setFieldValue(
-                            'ageGroups',
-                            formik.values.ageGroups.filter((a) => a !== age)
-                          );
-                        }
-                      }}
-                      className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                    />
-                    <span className="ml-3 text-sm text-gray-700">{age}</span>
-                  </label>
-                ))}
-              </div>
-              {formik.touched.ageGroups && formik.errors.ageGroups && (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.ageGroups}</p>
+              {isLoading ? (
+                <div className="flex items-center justify-center p-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-500"></div>
+                </div>
+              ) : ageGroups.length > 0 ? (
+                <div className="grid grid-cols-2 gap-3">
+                  {ageGroups.map((age) => (
+                    <label key={age.id || age} className="relative flex items-center p-3 border rounded-md hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="ageGroups"
+                        value={age.id || age}
+                        checked={formik.values.ageGroups.includes(age.id || age)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            formik.setFieldValue('ageGroups', [...formik.values.ageGroups, age.id || age]);
+                          } else {
+                            formik.setFieldValue(
+                              'ageGroups',
+                              formik.values.ageGroups.filter((a) => a !== (age.id || age))
+                            );
+                          }
+                        }}
+                        className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                      <span className="ml-3 text-sm text-gray-700">{age.name || age}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 text-center p-4">No age groups available</p>
               )}
             </div>
           </div>
@@ -458,14 +511,24 @@ const AddAthleteForm = ({ onClose, onSubmit }) => {
                   formik.handleSubmit();
                 }
               }}
-              disabled={!isStepValid(step)}
+              disabled={!isStepValid(step) || isSubmitting}
               className={`px-3 py-2 sm:px-4 sm:py-2 text-sm font-medium rounded-md ${
-                !isStepValid(step)
+                !isStepValid(step) || isSubmitting
                   ? 'bg-indigo-400 cursor-not-allowed'
                   : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-              } text-white`}
+              } text-white flex items-center`}
             >
-              {step < steps.length ? 'Next' : 'Submit'}
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                step < steps.length ? 'Next' : 'Submit'
+              )}
             </button>
           </div>
         </form>

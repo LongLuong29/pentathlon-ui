@@ -1,4 +1,26 @@
 import api from './axios';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../config/firebase';
+
+/**
+ * Upload image to Firebase Storage
+ * @param {File} file - Image file to upload
+ * @returns {Promise<string>} Firebase storage URL
+ */
+const uploadImageToFirebase = async (file) => {
+  if (!file) return '';
+  
+  // Create a unique filename
+  const filename = `${Date.now()}_${file.name}`;
+  const storageRef = ref(storage, `athletes/${filename}`);
+  
+  // Upload file
+  const snapshot = await uploadBytes(storageRef, file);
+  
+  // Get download URL
+  const downloadURL = await getDownloadURL(snapshot.ref);
+  return downloadURL;
+};
 
 /**
  * Athletes Service - Quản lý tất cả API calls liên quan đến vận động viên
@@ -40,18 +62,53 @@ export const athletesService = {
   
   /**
    * Tạo vận động viên mới
-   * @param {FormData} formData - Dữ liệu vận động viên (multipart/form-data)
-   * @returns {Promise} Vận động viên đã tạo
+   * @param {Object} data - Dữ liệu vận động viên
+   * @returns {Promise} Kết quả tạo vận động viên
    */
-  create: async (formData) => {
-    if (!formData) throw new Error('Athlete data is required');
-    
-    const response = await api.post('/athletes', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
+  create: async (data) => {
+    try {
+      let avatarUrl = '';
+      if (data.avatar instanceof File) {
+        avatarUrl = await uploadImageToFirebase(data.avatar);
+      }
+
+      // Format data theo đúng yêu cầu của API
+      const formattedData = {
+        fullname: data.fullName,
+        date_of_birth: data.dateOfBirth,
+        gender: data.gender.toLowerCase(),
+        phone: data.phone,
+        email: data.email,
+        address: data.address,
+        avatar: avatarUrl,
+        password: data.password || 'Password123@',
+        age_group_id: Array.isArray(data.ageGroups) ? data.ageGroups.map(Number) : [],
+        sport_id: Array.isArray(data.sports) ? data.sports.map(Number) : []
+      };
+
+      console.log('Data being sent to API:', formattedData);
+
+      const response = await api.post('/athletes', formattedData);
+      return response.data;
+    } catch (error) {
+      console.error('Full error object:', error);
+      console.error('Error status:', error.response?.status);
+      console.error('Error data:', error.response?.data);
+      console.error('Error message:', error.message);
+
+      // Xử lý các loại lỗi khác nhau
+      if (error.response) {
+        // Lỗi từ server với status code
+        const errorMessage = error.response.data?.message || 'Server error occurred';
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        // Lỗi không nhận được response
+        throw new Error('No response from server. Please check your connection.');
+      } else {
+        // Lỗi khi setting up request
+        throw new Error(error.message || 'Error setting up the request');
+      }
+    }
   },
   
   /**
