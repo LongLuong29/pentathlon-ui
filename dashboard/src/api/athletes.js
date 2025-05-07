@@ -27,7 +27,7 @@ const uploadImageToFirebase = async (file) => {
  */
 export const athletesService = {
   /**
-   * Lấy danh sách tất cả vận động viên
+   * Lấy danh sách tất cả vận động viên có phân trang
    * @param {number} page - Trang hiện tại
    * @param {number} limit - Số lượng item trên mỗi trang
    * @returns {Promise} Danh sách vận động viên và thông tin phân trang
@@ -47,6 +47,15 @@ export const athletesService = {
         limit: response.data.limit || 5
       }
     };
+  },
+
+  /**
+   * Lấy tất cả vận động viên không phân trang
+   * @returns {Promise<Array>} Mảng chứa tất cả vận động viên
+   */
+  getAllWithoutPagination: async () => {
+    const response = await api.get('/athletes/all');
+    return Array.isArray(response.data) ? response.data : [];
   },
   
   /**

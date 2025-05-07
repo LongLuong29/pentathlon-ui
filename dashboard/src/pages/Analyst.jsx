@@ -103,7 +103,7 @@ const Analyst = () => {
       setLoading(true);
       try {
         // Fetch athletes
-        const athleteData = await athletesService.getAll();
+        const athleteData = await athletesService.getAllWithoutPagination();
         setAthletes(athleteData);
         if (athleteData.length > 0) {
           setSelectedAthlete(athleteData[0].id);

@@ -37,11 +37,11 @@ const Athlete = ({ showAddAthleteModal, setShowAddAthleteModal }) => {
       const newAthlete = await athletesService.create(formData);
       setAthletes(prevAthletes => [...prevAthletes, newAthlete]);
       setShowAddAthleteModal(false);
-      toast.success('Athlete added successfully!');
+      // toast.success('Athlete added successfully!');
     } catch (err) {
       console.error('Error adding athlete:', err);
       setError('Failed to add athlete');
-      toast.error('Failed to add athlete');
+      // toast.error('Failed to add athlete');
     } finally {
       setLoading(false);
     }
