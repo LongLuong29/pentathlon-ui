@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import { formatDate } from '../utils/index';
 import { athletesService } from '../api';
 import { handleError } from '../utils/errorHandler';
 import Loading from './common/Loading';
+
+// Cache object để lưu trữ dữ liệu
+const cache = {
+  athletes: new Map(), // Map để lưu data theo page
+  timestamp: new Map(), // Map để lưu thời gian cache
+  CACHE_TIME: 5 * 60 * 1000, // 5 phút
+};
 
 const AthleteList = ({ searchTerm, onSearchChange }) => {
   const [openRowId, setOpenRowId] = useState(null);
@@ -16,16 +23,41 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
-    limit: 5
+    limit: 10
   });
   const navigate = useNavigate();
 
-  const fetchAthletes = async () => {
+  const getCachedData = useCallback((page, limit) => {
+    const key = `${page}-${limit}`;
+    const cachedData = cache.athletes.get(key);
+    const cachedTime = cache.timestamp.get(key);
+    
+    if (cachedData && cachedTime && (Date.now() - cachedTime < cache.CACHE_TIME)) {
+      return cachedData;
+    }
+    return null;
+  }, []);
+
+  const setCacheData = useCallback((page, limit, data) => {
+    const key = `${page}-${limit}`;
+    cache.athletes.set(key, data);
+    cache.timestamp.set(key, Date.now());
+  }, []);
+
+  const fetchAthletes = useCallback(async () => {
+    const cachedData = getCachedData(pagination.page, pagination.limit);
+    if (cachedData) {
+      setAthletes(cachedData.athletes);
+      setPagination(cachedData.pagination);
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await athletesService.getAll(pagination.page, pagination.limit);
       setAthletes(response.athletes);
       setPagination(response.pagination);
+      setCacheData(pagination.page, pagination.limit, response);
       setError(null);
     } catch (err) {
       const errorData = handleError(err, 'AthleteList');
@@ -34,11 +66,11 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pagination.page, pagination.limit, getCachedData, setCacheData]);
 
   useEffect(() => {
     fetchAthletes();
-  }, [pagination.page, pagination.limit]);
+  }, [fetchAthletes]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -187,7 +219,11 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {

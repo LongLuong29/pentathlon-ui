@@ -74,7 +74,6 @@ const AddAthleteForm = ({ onClose, onSubmit, onSuccess }) => {
         
         const response = await athletesService.create(values);
         
-        toast.success('Athlete added successfully!');
         if (onSuccess) {
           onSuccess(); // Refresh AthleteList
         }
