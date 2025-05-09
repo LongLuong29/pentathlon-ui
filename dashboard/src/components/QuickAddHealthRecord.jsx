@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { format } from "date-fns";
 import { User, Activity, Calendar, X, Save, Plus } from "lucide-react";
 import Button from "./ui/Button";
 import Select from "./ui/Select";
 import Input from "./ui/Input";
 import { toast } from "react-toastify";
+import { healthRecordsService, healthMetricsService } from "../api/health-records";
 
 const QuickAddHealthRecord = ({ athletes, metricGroups, onClose, onSuccess }) => {
   const [selectedAthlete, setSelectedAthlete] = useState("");
@@ -20,10 +20,9 @@ const QuickAddHealthRecord = ({ athletes, metricGroups, onClose, onSuccess }) =>
   useEffect(() => {
     if (selectedMetricGroup) {
       setIsLoading(true);
-      axios
-        .get(`http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`)
-        .then((res) => {
-          const metrics = Array.isArray(res.data) ? res.data : [];
+      healthMetricsService
+        .getByGroup(selectedMetricGroup)
+        .then((metrics) => {
           setHealthMetrics(metrics);
           // Initialize records with empty values
           setRecords(metrics.map(metric => ({
@@ -84,7 +83,7 @@ const QuickAddHealthRecord = ({ athletes, metricGroups, onClose, onSuccess }) =>
       const savePromises = records
         .filter(record => record.value !== "") // Only save records with values
         .map(record => 
-          axios.post("http://localhost:5000/api/health-records", {
+          healthRecordsService.create({
             athlete_id: Number(selectedAthlete),
             metric_id: record.metric_id,
             metric_value: parseFloat(record.value),

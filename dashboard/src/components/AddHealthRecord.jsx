@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { format } from "date-fns";
 import { User, Activity, Heart, Calendar, X, Save } from "lucide-react";
 import Button from "./ui/Button";
 import Select from "./ui/Select";
 import Input from "./ui/Input";
 import { toast } from "react-toastify";
+import { healthRecordsService, healthMetricsService } from "../api/health-records";
 
 const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSuccess, onResetFilters }) => {
   const [selectedAthlete, setSelectedAthlete] = useState("");
@@ -21,10 +21,9 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
     setSelectedHealthMetric("");
     if (selectedMetricGroup) {
       setIsLoading(true);
-      axios
-        .get(`http://localhost:5000/api/health-metrics/filter/${selectedMetricGroup}`)
-        .then((res) => {
-          const metrics = Array.isArray(res.data) ? res.data : [];
+      healthMetricsService
+        .getByGroup(selectedMetricGroup)
+        .then((metrics) => {
           setHealthMetrics(metrics);
           setErrors(prev => ({ ...prev, metricGroup: null }));
         })
@@ -59,7 +58,7 @@ const AddHealthRecordModal = ({ athletes, metricGroups, onClose, onSave, onSucce
     const formattedDate = format(new Date(recordDate), "yyyy-MM-dd HH:mm:ss");
     
     try {
-      await axios.post("http://localhost:5000/api/health-records", {
+      await healthRecordsService.create({
         athlete_id: Number(selectedAthlete),
         metric_id: Number(selectedHealthMetric),
         metric_value: parseFloat(value),
