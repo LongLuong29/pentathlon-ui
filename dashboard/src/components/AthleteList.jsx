@@ -1,16 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { formatDate } from '../utils/index';
 import { athletesService } from '../api';
 import { handleError } from '../utils/errorHandler';
 import Loading from './common/Loading';
-
-// Cache object để lưu trữ dữ liệu
-const cache = {
-  athletes: new Map(), // Map để lưu data theo page
-  timestamp: new Map(), // Map để lưu thời gian cache
-  CACHE_TIME: 5 * 60 * 1000, // 5 phút
-};
 
 const AthleteList = ({ searchTerm, onSearchChange }) => {
   const [openRowId, setOpenRowId] = useState(null);
@@ -27,12 +20,28 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
   });
   const navigate = useNavigate();
 
+  // Use refs for cache to persist between re-renders but reset on unmount
+  const cacheRef = useRef({
+    athletes: new Map(),
+    timestamp: new Map(),
+    CACHE_TIME: 5 * 60 * 1000 // 5 minutes
+  });
+
+  // Cleanup function
+  useEffect(() => {
+    return () => {
+      // Clear cache when component unmounts
+      cacheRef.current.athletes.clear();
+      cacheRef.current.timestamp.clear();
+    };
+  }, []);
+
   const getCachedData = useCallback((page, limit) => {
     const key = `${page}-${limit}`;
-    const cachedData = cache.athletes.get(key);
-    const cachedTime = cache.timestamp.get(key);
+    const cachedData = cacheRef.current.athletes.get(key);
+    const cachedTime = cacheRef.current.timestamp.get(key);
     
-    if (cachedData && cachedTime && (Date.now() - cachedTime < cache.CACHE_TIME)) {
+    if (cachedData && cachedTime && (Date.now() - cachedTime < cacheRef.current.CACHE_TIME)) {
       return cachedData;
     }
     return null;
@@ -40,20 +49,22 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
 
   const setCacheData = useCallback((page, limit, data) => {
     const key = `${page}-${limit}`;
-    cache.athletes.set(key, data);
-    cache.timestamp.set(key, Date.now());
+    cacheRef.current.athletes.set(key, data);
+    cacheRef.current.timestamp.set(key, Date.now());
   }, []);
 
   const fetchAthletes = useCallback(async () => {
-    const cachedData = getCachedData(pagination.page, pagination.limit);
-    if (cachedData) {
-      setAthletes(cachedData.athletes);
-      setPagination(cachedData.pagination);
-      return;
-    }
-
     try {
       setLoading(true);
+      const cachedData = getCachedData(pagination.page, pagination.limit);
+      
+      if (cachedData) {
+        setAthletes(cachedData.athletes);
+        setPagination(cachedData.pagination);
+        setLoading(false);
+        return;
+      }
+
       const response = await athletesService.getAll(pagination.page, pagination.limit);
       setAthletes(response.athletes);
       setPagination(response.pagination);
@@ -68,9 +79,18 @@ const AthleteList = ({ searchTerm, onSearchChange }) => {
     }
   }, [pagination.page, pagination.limit, getCachedData, setCacheData]);
 
+  // Reset state when component mounts (chỉ reset pagination, không gọi fetchAthletes)
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setAthletes([]);
+    setPagination(prev => ({ ...prev, page: 1 }));
+  }, []);
+
+  // Fetch data when pagination changes
   useEffect(() => {
     fetchAthletes();
-  }, [fetchAthletes]);
+  }, [pagination.page, pagination.limit, fetchAthletes]);
 
   useEffect(() => {
     const handleResize = () => {
